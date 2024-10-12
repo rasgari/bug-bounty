@@ -21,8 +21,12 @@ detectify         .  com
 
 app.cobalt        .  io
 
+پلتفرم باگ بانتی ایرانی :
 
+ravro             .   ir
 
+bugdasht          .   ir
 
+kolahsefid        .   com
 
-
+snapp             .   ir        /bugbounty/
