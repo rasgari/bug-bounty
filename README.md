@@ -1,5 +1,5 @@
 # bug-bounty
-پلتفرم باگ بانتی خارجی :
+===>>> پلتفرم باگ بانتی خارجی :
 
 bug bounty site:
 
@@ -21,7 +21,7 @@ detectify         .  com
 
 app.cobalt        .  io
 
-پلتفرم باگ بانتی ایرانی :
+===>>> پلتفرم باگ بانتی ایرانی :
 
 ravro             .   ir
 
@@ -34,6 +34,6 @@ snapp             .   ir        /bugbounty/
 
 
 
-Bug Bounty Hunting Search Engine:
+===>>> Bug Bounty Hunting Search Engine:
 
 https://www.bugbountyhunting.com/
