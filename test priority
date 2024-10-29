@@ -1,0 +1,17 @@
+Test priority
+
+critical:
+- RCE (emote code execution)
+- buffer over flow
+- zeroday vulnerabilities
+- insecure deserialization
+- critical configuration flaws
+
+
+high:
+- sql injection
+- privilege escalation
+- sensitive data exposure
+- CSRF
+- XSS exploit
+
