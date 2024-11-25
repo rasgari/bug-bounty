@@ -5,3 +5,7 @@ OWASP:
                       --->>> ../../.htaccess
                       --->>> ../../etc/passwd
 
+
+
+===>>> mis configuration:
+            ===>>> directory listing
