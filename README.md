@@ -1,3 +1,9 @@
+<img align="center" alt="bug-bounty" width = "1000"  src="https://www.pushwoosh.com/wp-content/uploads/2016/05/bigbounty_gif_blog@2x.gif" >
+
+
+
+
+
 # bug-bounty
 ===>>> پلتفرم باگ بانتی خارجی :
 
