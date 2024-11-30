@@ -9,33 +9,33 @@
 
 bug bounty site:
 
-hackerone         .  com
+hackerone.com
 
-bugcrowd          .  com
+bugcrowd.com
 
-intigriti         .  com
+intigriti.com
 
-synack            .  com
+synack.com
 
-yeswehack         .  com
+yeswehack.com
 
-petabug           .  com
+petabug.com
 
-hackenproof       .  com
+hackenproof.com
 
-detectify         .  com
+detectify.com
 
-app.cobalt        .  io
+app.cobalt.io
 
 ===>>> پلتفرم باگ بانتی ایرانی :
 
-ravro             .   ir
+ravro.ir
 
-bugdasht          .   ir
+bugdasht.ir
 
-kolahsefid        .   com
+kolahsefid.com
 
-snapp             .   ir        /bugbounty/
+snapp.ir/bugbounty/
 
 
 
@@ -48,3 +48,21 @@ https://www.bugbountyhunting.com/
 
 گزازش نویسی
 قرارداد کاری
+
+=======================================================
+
+Here’s a tip how to become a bug hunter and things to keep in mind while doing bug bounties:
+•Sleep well
+•Learn vulnerability types (owasp)
+•Focus on 1 each time
+•Read & practice
+•Learn how to find and exploit
+•Understand how to analyse website
+•See how others do (reports)
+•Learn 1 programming language
+•Make your own scripts
+•Don’t rush
+
+Certainly a very prudent advice!
+
+=======================================================
