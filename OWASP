@@ -9,3 +9,7 @@ OWASP:
 
 ===>>> mis configuration:
             ===>>> directory listing
+
+
+===>>> word list:
+       ===>>> admin , upload , application , config , database , ownerapi , restapi , routes , api-model , sql , htaccess ,  
