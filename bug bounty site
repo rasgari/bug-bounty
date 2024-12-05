@@ -29,6 +29,57 @@ https://systemweakness.com/20-bug-bounty-crowdsourced-platforms-a4c486c85671?sou
 
 =================================================================
 
+The Smarter Bug Hunting (For Low Hanging Bug)
 
+📌 Step 1: Gather Recon Data
+The foundation of bug hunting is solid reconnaissance. Use tools like Amass and Subfinder to discover subdomains.
+
+#amass enum -d http://target.com  
+#subfinder -d http://target.com -o subdomains.txt
+
+💡 Tip: Target overlooked assets like staging environments or old subdomains—gold mines for misconfigurations!
+
+📌 Step 2: Look for Open Ports
+Scanning for open ports and services can lead you to hidden vulnerabilities. Use Nmap:
+
+#nmap -sV -p- -iL subdomains.txt -oN nmap_results.txt
+
+💡 Tip: Pay attention to non-standard ports; they often harbor interesting services.
+
+📌 Step 3: Identify Vulnerable Endpoints
+Use httpx to detect live endpoints:
+
+#httpx -l subdomains.txt -o live_endpoints.txt
+
+Follow up with FFUF for fuzzing:
+
+#ffuf -u https://target.com/FUZZ -w /path/to/wordlist.txt -mc 200,403
+
+💡 Tip: Fuzz for directories like /admin, /test, and /backup.
+
+📌 Step 4: Test for Common Bugs
+Some of the easiest yet impactful vulnerabilities include
+
+1. IDOR (Insecure Direct Object References)
+2. Misconfigurations in headers or access controls
+3. Default credentials in login panels
+
+Example: Testing for IDOR with Burp Suite:
+
+1. Intercept requests and modify object IDs or parameters.
+2. Observe the response for unauthorized data.
+
+📌 Step 5: Automate Your Findings
+Tools like Hakrawler can help you crawl and identify more endpoints:
+
+#hakrawler -url https://target.com -depth 2 -plain > urls.txt
+
+Pair it with ParamSpider for parameter discovery:
+
+#python3 http://paramspider.py --domain http://target.com
+
+🔑 Key Takeaway: Focus on actionable bugs with high reproducibility. These might seem small, but in the right context, they’re incredibly impactful!
+
+=================================================================
 
 
