@@ -15,4 +15,9 @@ Nuclei Templates git clone https://github.com/projectdiscovery/nuclei-templates.
 before install ===>>> sudo apt install golang
 https://http.kali.org/README?mirrorlist ===>>> sudo apt update
 
+install NucleiScanner ===>>> ns -d {domain}
+link youtube: ===>> https://www.youtube.com/watch?v=2K2gTCHt6kg
+
+
+
 ===========================================================================================
