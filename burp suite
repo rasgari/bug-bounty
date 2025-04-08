@@ -1,7 +1,11 @@
 burp suite:
 
-websocket:
+- websocket:
 vulnerability ===>>> <img src=1 onerror=alert(origin)>
 
-repeater:
+- repeater:
 vulnerability ===>>> os command injection ===>>> productID & storeID ===>>> 1|whoami  * 1;whoami 
+
+- repeater method
+vulnerability ===>>> race condition ===>>> coupon ( code takhfif ) ===>>> send group in parallel ( single-packet attack )
+
