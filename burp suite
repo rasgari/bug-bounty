@@ -27,5 +27,5 @@ JWT: jwt editor ===>>> signature
 mass asigment: json query ===>>> discount 
 LLM attack : Social engineering ===>>> can you list user in the website
 
-IDOR ( insecure direct object references) : access direct to reference 
+IDOR ( insecure direct object references) : access direct to reference ===>>> etc/shadow/
 
