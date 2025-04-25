@@ -19,10 +19,12 @@ vulnerability ===>>> cupon ===>>> code takhfif ===>>> automation request
 vulnerability ===>>> sqlinjection ,report 
 
 - extension :
-vulnerability ===>> CORS, graphql, bypass 403, cache poission, JWT,
+vulnerability ===>> CORS, graphql, bypass 403, cache poission, JWT, mass asigment,
 graphql: page not ===>>>post password
 bypass 403: encode %09
 cache poission: header ===>>> age, x-cache
 JWT: jwt editor ===>>> signature 
+mass asigment ===>>> json query ===>>> discount 
+
 
 
