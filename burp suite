@@ -22,6 +22,7 @@ vulnerability ===>>> sqlinjection ,report
 vulnerability ===>> CORS, graphql, bypass 403, cache poission
 graphql: page not ===>>>post password
 bypass 403: encode %09
-cache poission: 
+cache poission: header ===>>> age, x-cache
+
 
 
