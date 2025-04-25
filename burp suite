@@ -15,6 +15,10 @@ vulnerability ===>>> SSRF ===>>> replace host ===>>> http://localhost.com
 - macros :
 vulnerability ===>>> cupon ===>>> code takhfif ===>>> automation request
 
--seq, logger - organizer :
+- seq, logger - organizer :
 vulnerability ===>>> sqlinjection ,report 
+
+
+- extension :
+vulnerability ===>> CORS, graphql
 
