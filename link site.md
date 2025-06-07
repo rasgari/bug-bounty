@@ -11,6 +11,5 @@
 
 [ hubs ](https://hubs.ly)
 
-[ hubs ](https://hubs.li)
 
 ## link
