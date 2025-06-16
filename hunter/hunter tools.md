@@ -1,7 +1,8 @@
 # hunter tools
-   
-   Tool 			Discription 						      URL		
- gauplus 		Finding all the links related to the site and identifying the desired items							https://github.com/bp0lr/gauplus.git		
+
+| Tool             | Discription | URL  | 
+| ------------------ | ---------- | ----- | -------------------------------- |
+| gauplus 		      |   Finding all the links related to the site and identifying the desired items		|					https://github.com/bp0lr/gauplus.git		
 asset finder 		Find all assets related to the website and check them in scope							https://github.com/tomnomnom/assetfinder.git		
 wayback ursl 		Find all the links related to the website and find the end points							https://github.com/tomnomnom/waybackurls.git		
   Nuclei 		Identifying urls and endpoints and finding vulnerabilities by specifying their severity							https://github.com/projectdiscovery/nuclei.git		
