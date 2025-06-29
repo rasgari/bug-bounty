@@ -45,7 +45,11 @@ bug bounty site:
 
 [ bugbountyhunting ](https://www.bugbountyhunting.com/)
 
+## cheat sheet
 
+[ cheat sheet owasp ](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerability_Disclosure_Cheat_Sheet.html#bug-bounty-programs)
+
+=======================================================
 گزازش نویسی
 قرارداد کاری
 
