@@ -50,7 +50,8 @@ bug bounty site:
 [ cheat sheet owasp ](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerability_Disclosure_Cheat_Sheet.html#bug-bounty-programs)
 
 =======================================================
-گزازش نویسی
+
+گزارش نویسی
 قرارداد کاری
 
 =======================================================
