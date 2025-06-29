@@ -51,6 +51,7 @@ bug bounty site:
 
 ===>>> [ github bug bounty reference ](https://github.com/ngalongc/bug-bounty-reference)
 
+===>>> [ cybersectools ](https://github.com/EdOverflow/bugbounty-cheatsheet?utm_source=cybersectools.com)
 
 =======================================================
 
