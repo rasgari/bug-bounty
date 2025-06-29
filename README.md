@@ -9,33 +9,33 @@
 
 bug bounty site:
 
-hackerone.com
+[ hackerone ](hackerone.com)
 
-bugcrowd.com
+[ bugcrowd ](bugcrowd.com)
 
-intigriti.com
+[ intigriti ](intigriti.com)
 
-synack.com
+[ synack ](synack.com)
 
-yeswehack.com
+[ yeswehack ](yeswehack.com)
 
-petabug.com
+[ petabug ](petabug.com)
 
-hackenproof.com
+[ hackenproof ](hackenproof.com)
 
-detectify.com
+[ detectify ](detectify.com)
 
-app.cobalt.io
+[ app.cobalt ](app.cobalt.io)
 
 ===>>> پلتفرم باگ بانتی ایرانی :
 
-ravro.ir
+[ ravro ](ravro.ir)
 
-bugdasht.ir
+[ bugdasht ](bugdasht.ir)
 
-kolahsefid.com
+[ kolahsefid ](kolahsefid.com)
 
-snapp.ir/bugbounty/
+[ snapp ](snapp.ir/bugbounty/)
 
 
 
@@ -43,7 +43,7 @@ snapp.ir/bugbounty/
 
 ===>>> Bug Bounty Hunting Search Engine:
 
-https://www.bugbountyhunting.com/
+[ bugbountyhunting ](https://www.bugbountyhunting.com/)
 
 
 گزازش نویسی
