@@ -48,7 +48,7 @@ bug bounty site:
 ## cheat sheet
 
 [ cheat sheet owasp ](https://cheatsheetseries.owasp.org/cheatsheets/Vulnerability_Disclosure_Cheat_Sheet.html#bug-bounty-programs)
-
+[ github bug bounty reference ](https://github.com/ngalongc/bug-bounty-reference)
 =======================================================
 
 گزارش نویسی
