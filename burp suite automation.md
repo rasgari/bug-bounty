@@ -90,8 +90,9 @@ Collaborator: تست‌های پیشرفته Out-of-Band (OOB).
 
 1. اسکریپت تخصصی برای تست XSS با Burp Suite و Burp Collaborator
 نمونه پیلود XSS با Burp Collaborator (Blind XSS)
-xml
+```bash
 <script src="https://your-collaborator-id.burpcollaborator.net"></script>
+```
 این پیلود را در ورودی‌های مختلف سایت تزریق کنید (فرم‌ها، هدرها، کوکی‌ها).
 
 اگر سرور به Burp Collaborator درخواست ارسال کند، یعنی آسیب‌پذیری Blind XSS وجود دارد.
@@ -108,9 +109,10 @@ xml
 حمله را اجرا و پاسخ‌ها را تحلیل کنید.
 
 2. اسکریپت نمونه برای تست SSRF (Blind SSRF با استفاده از Burp Collaborator)
-bash
 # نمونه payload برای تزریق SSRF
+```bash
 http://your-target.com/api?url=http://your-collaborator-id.burpcollaborator.net
+```
 پارامترهای URL یا هر ورودی که سرور درخواست HTTP ارسال می‌کند را هدف قرار دهید.
 
 اگر سرور به دامنه Burp Collaborator درخواست ارسال کند، SSRF تایید می‌شود.
