@@ -21,3 +21,9 @@
 - [ Subdomain_takeover ](https://github.com/EdOverflow/can-i-take-over-xyz)
 
 - [ Subdomain Discovery ](https://pugrecon.com/)
+
+- [ Pentest Tools Website Export Report ](https://pentest-tools.com/)
+
+- [ Subdomain Finder ](https://subdomainfinder.c99.nl/)
+
+- [ CIDR & ASN ](https://bgp.he.net/)
