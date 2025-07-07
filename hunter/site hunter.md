@@ -25,5 +25,3 @@
 - [ Pentest Tools Website Export Report ](https://pentest-tools.com/)
 
 - [ Subdomain Finder ](https://subdomainfinder.c99.nl/)
-
-- [ CIDR & ASN ](https://bgp.he.net/)
