@@ -1,8 +1,8 @@
 # site hunter:
 
-> - [Hacker Target ](#Hacker_Target)
-> - [ CIDR & ASN1 ](#CIDR_&_ASN1)
-> - [ CIDR & ASN2 ](#CIDR_&_ASN2)
+> - [HackerTarget ](#HackerTarget)
+> - [ CIDR&ASN1 ](#CIDR&ASN1)
+> - [ CIDR&ASN2 ](#CIDR&ASN2)
 > - [ Hextoken ](#Hextoken)
 > - [ Chaosprojectdiscovery ](#Chaosprojectdiscovery)
 > - [ iplist ](#iplist)
