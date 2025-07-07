@@ -4,7 +4,7 @@
 > - [ CIDR & ASN1 ](#CIDR_&_ASN1)
 > - [ CIDR & ASN2 ](#CIDR_&_ASN2)
 > - [ Hextoken ](#Hextoken)
-> - [ Chaos.projectdiscovery ](#Chaos.projectdiscovery)
+> - [ Chaosprojectdiscovery ](#Chaosprojectdiscovery)
 > - [ iplist ](#iplist)
 > - [ FUllPentestingtools ](#FUllPentestingtools)
 > - [ domainSearchEngine ](#domainSearchEngine)
@@ -27,7 +27,7 @@
 ## Hextoken
 [ Hex token ](https://cryptii.com/pipes/hex-decoder)
 
-## Chaos.projectdiscovery
+## Chaosprojectdiscovery
 [ Chaos.projectdiscovery ](https://chaos.projectdiscovery.io/#/)
 
 ## iplist
