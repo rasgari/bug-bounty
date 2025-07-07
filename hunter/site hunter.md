@@ -1,11 +1,11 @@
 # site hunter:
 
- - [ Hacker Target ](https://hackertarget.com/find-dns-host-records/)
+- [ Hacker Target ](https://hackertarget.com/find-dns-host-records/)
 
-- [ Hacker Target ](
+- [ CIDR & ASN ](https://bgpview.io/)
 
-- [ Hacker Target ](
+- [ CIDR & ASN ](https://bgp.he.net/)
  
-- [ Hacker Target ](
+- [ Hex token ](https://cryptii.com/pipes/hex-decoder)
 
-- [ Hacker Target ]( 
+- [ Chaos.projectdiscovery ](https://chaos.projectdiscovery.io/#/)
