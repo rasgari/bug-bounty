@@ -9,3 +9,13 @@
 - [ Hex token ](https://cryptii.com/pipes/hex-decoder)
 
 - [ Chaos.projectdiscovery ](https://chaos.projectdiscovery.io/#/)
+
+- [ ip_list ](http://magic-cookie.co.uk/iplist.html)
+
+- [ CIDR & ASN ](https://bgp.he.net/)
+
+- [ CIDR & ASN ](https://bgp.he.net/)
+
+- [ CIDR & ASN ](https://bgp.he.net/)
+
+- [ CIDR & ASN ](https://bgp.he.net/)
