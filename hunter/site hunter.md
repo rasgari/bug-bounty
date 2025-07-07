@@ -12,10 +12,12 @@
 
 - [ ip_list ](http://magic-cookie.co.uk/iplist.html)
 
-- [ CIDR & ASN ](https://bgp.he.net/)
+- [ FUll_Pentesting tools ](https://tools.prinsh.com/home/?tools=adfind)
 
-- [ CIDR & ASN ](https://bgp.he.net/)
+- [ domain Search Engine ](https://www.whoxy.com/)
 
-- [ CIDR & ASN ](https://bgp.he.net/)
+- [ Internet scanner ](https://app.netlas.io/host/)
 
-- [ CIDR & ASN ](https://bgp.he.net/)
+- [ Subdomain_takeover ](https://github.com/EdOverflow/can-i-take-over-xyz)
+
+- [ Subdomain Discovery ](https://pugrecon.com/)
