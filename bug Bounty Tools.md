@@ -1,8 +1,8 @@
-Awesome Bug Bounty Tools
+#Awesome Bug Bounty Tools
 
 
 ===>>> Subdomain finder
-https://subdomainfinder.c99.nl
+[ subdomainfinder.c99 ](https://subdomainfinder.c99.nl)
 
 ==================================================================
 Recon
