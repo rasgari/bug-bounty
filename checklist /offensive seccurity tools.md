@@ -1,5 +1,11 @@
 # offensive seccurity tools
 
+> - [ reconnaissance ](#reconnaissance)
+> - [ vulnerabilityscanningye ](#vulnerabilityscanningye)
+> - [ network-based-attacks ](#network-based-attacks)
+> - [ password-brute-force-attacks ](#password-brute-force-attacks)
+
+
 ## reconnaissance
 - recon-ng
 - theharvester
@@ -13,14 +19,14 @@
 - masscan
 - zmap
 
-## vulnerability scanningye
+## vulnerabilityscanningye
 - openvas
 - w3af
 - nikto
 - vuls
 - nessus
 
-## network-based attacks
+## network-based-attacks
 - wireshark
 - ettercap
 - arpspoof
@@ -30,7 +36,7 @@
 - hping3
 - yersinia
 
-  ## password & brute force attacks
+  ## password-brute-force-attacks
   - john the ripper
   - hashcat
   - crunch
