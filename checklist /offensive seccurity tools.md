@@ -1,10 +1,17 @@
 # offensive seccurity tools
 
 > - [ reconnaissance ](#reconnaissance)
-> - [ vulnerabilityscanningye ](#vulnerabilityscanningye)
+> - [ vulnerability-scanningye ](#vulnerability-scanningye)
 > - [ network-based-attacks ](#network-based-attacks)
 > - [ password-brute-force-attacks ](#password-brute-force-attacks)
-
+> - [ mobile-security ](#mobile-security)
+> - [ reverse-engineering ](#reverse-engineering)
+> - [ exploitation ](#exploitation)
+> - [ post-exploitation ](#post-exploitation)
+> - [ wireless-attacks ](#wireless-attacks)
+> - [ social-engineering-phishing ](#social-engineering-phishing)
+> - [ web-app-pentesting ](#web-app-pentesting)
+> - [ reporting-documentation ](#reporting-documentation)
 
 ## reconnaissance
 - recon-ng
@@ -49,7 +56,7 @@
   - crowbar
   - fcrackzip
  
-## mobile security
+## mobile-security
  - drazer
  - androguard
  - frida
@@ -61,7 +68,7 @@
  - quark engine
  - bettercap
 
-## reverse engineering
+## reverse-engineering
 - radare2
 - ghidra
 - angr
@@ -96,7 +103,7 @@
 - beroot
 - pwncat
 
-## wireless attacks
+## wireless-attacks
 - kismet
 - pixiewps
 - wifite
@@ -106,19 +113,19 @@
 - airgeddon
 - wifi pumpkin
 
-## social engineering & phishing
+## social-engineering-phishing
 - gophish
 - king phisher
 - phishx
 
-## web app pentesting
+## web-app-pentesting
 - burp suite
 - OWASP zap
 - arachni
 - wfuzz
 - skipfish
 
-## reporting & documentation
+## reporting-documentation
 - dradis
 - faraday
 - serpico
