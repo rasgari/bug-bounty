@@ -29,3 +29,24 @@ recon_raw.txt: خروجی خلاصه
 tech_stack.json: خروجی کامل قابل استفاده برای مرحله بعد
 
 ========================================================================
+
+ ساختار پروژه بعد از مرحله دوم:
+```
+webhunter/
+├── step1_recon.py
+├── step2_async_scanner.py    ← ابزار async اسکن
+├── urls.txt
+├── out/
+│   ├── recon_raw.txt
+│   ├── tech_stack.json
+│   ├── vuln_scan_report.html  ← خروجی دسته‌بندی‌شده
+├── payloads/
+│   ├── xss.txt
+│   ├── sql.txt
+│   ├── redirect.txt
+│   ├── ssrf.txt
+│   ├── cmd.txt
+│   ├── lfi.txt
+
+```
+
