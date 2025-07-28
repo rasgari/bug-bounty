@@ -13,39 +13,48 @@
 مهم‌ترین URLهایی که پتانسیل آسیب‌پذیری دارند:
 
 1. احتمال Redirect یا Open Redirect
-http://snapp.ir:80/wp-login.php?redirect_to=http://snapp.ir/wp-admin/&reauth=FUZZ
+
+```
+http://site.ir:80/wp-login.php?redirect_to=http://site.ir/wp-admin/&reauth=FUZZ
+```
 احتمال آسیب‌پذیری Open Redirect در پارامتر redirect_to.
 
 
 
 2. Base64 داخل پارامتر GET — احتمال تزریق یا باز کردن مسیرهای ناامن
-http://ios.snapp.ir/h/food/?aHR0c... (Base64 string)
+```
+http://ios.site.ir/h/food/?aHR0c... (Base64 string)
+```
 این نوع URL‌ با پارامتر ?aHR0c... احتمال اجرای لینک‌های غیرمجاز از طریق Decode کردن دارد.
 
 مثال‌های مشابه:
+```
+http://ios.site.ir/h/train/?aHR0...
 
-http://ios.snapp.ir/h/train/?aHR0...
+http://site.ir/landings/super-app-food?utm_medium=FUZZ
 
-http://snapp.ir/landings/super-app-food?utm_medium=FUZZ
-
-http://services.snapp.ir/wp-includes/js/jquery/jquery.min.js?ver=FUZZ
-
+http://services.site.ir/wp-includes/js/jquery/jquery.min.js?ver=FUZZ
+```
 
 3. Endpointهای REST API وردپرس (/wp-json/oembed/...)
 
-https://club.snapp.ir/wp-json/oembed/1.0/embed?url=https://club.snapp.ir/snapp-drivers-training/...
+```
+https://club.site.ir/wp-json/oembed/1.0/embed?url=https://club.site.ir/site-drivers-training/...
+```
 اگر پارامتر url= بدرستی فیلتر نشده باشد، احتمال XSS یا SSRF دارد.
 
 4. استفاده از token= بدون احراز هویت
-
-https://engineering.snapp.ir/authorize-token?expires=1652104148&nightmode=FUZZ
-https://engineering.snapp.ir/authorize-token?token=guest&redirectedPub=FUZZ
+```
+https://engineering.site.ir/authorize-token?expires=1652104148&nightmode=FUZZ
+https://engineering.site.ir/authorize-token?token=guest&redirectedPub=FUZZ
+```
 احتمال سوءاستفاده از توکن در صورت عدم محدودسازی IP یا زمان انقضا.
 
 5. پنل مدیریت بدون احراز هویت مناسب
-
-http://promoclub.snapp.ir/wp-admin/?login=FUZZ
-http://club.snapp.ir/promoclub/?login=FUZZ
+```
+http://promoclub.site.ir/wp-admin/?login=FUZZ
+http://club.site.ir/promoclub/?login=FUZZ
+```
 اگر بدون احراز هویت بتوان به پنل دسترسی داشت یا رفتار غیرمنتظره داشت، آسیب‌پذیر است.
 
 پیشنهاد بررسی دقیق‌تر:
@@ -77,28 +86,29 @@ URLهایی که شامل کلمات کلیدی آسیب‌پذیری رایج �
 
 در میان URLهای پیوست‌شده، این نمونه‌ها به طور بالقوه می‌توانند منجر به آسیب‌پذیری باشند (به دلیل داشتن پارامترهای حساس یا دسترسی به بخش‌های مدیریتی):
 
-http://snapp.ir:80/wp-login.php?action=FUZZ
+```
+http://site.ir:80/wp-login.php?action=FUZZ
 
-http://snapp.ir:80/panel/wp-login.php?redirect_to=FUZZ
+http://site.ir:80/panel/wp-login.php?redirect_to=FUZZ
 
-http://club.snapp.ir/promoclub/?login=true&back=FUZZ
+http://club.site.ir/promoclub/?login=true&back=FUZZ
 
-https://club.snapp.ir/wp-admin/post.php?post=50669&action=FUZZ
+https://club.site.ir/wp-admin/post.php?post=50669&action=FUZZ
 
-https://club.snapp.ir/wp-json/oembed/1.0/embed?url=https://club.snapp.ir/wp-admin/post.php?post=FUZZ
+https://club.site.ir/wp-json/oembed/1.0/embed?url=https://club.site.ir/wp-admin/post.php?post=FUZZ
 
-https://club.snapp.ir/wp-admin/admin-ajax.php?action=FUZZ
+https://club.site.ir/wp-admin/admin-ajax.php?action=FUZZ
 
-http://club.snapp.ir/promoclub/free-corona-test/?login=FUZZ
+http://club.site.ir/promoclub/free-corona-test/?login=FUZZ
 
-https://kb.snapp.ir/login.action?os_destination=FUZZ
+https://kb.site.ir/login.action?os_destination=FUZZ
 
-https://engineering.snapp.ir/authorize-token?expires=...&nightmode=FUZZ
+https://engineering.site.ir/authorize-token?expires=...&nightmode=FUZZ
 
-https://pl.snapp.ir/home?token=FUZZ&openedVia=FUZZ
+https://pl.site.ir/home?token=FUZZ&openedVia=FUZZ
 
-http://snapp.ir:80/wp-json/oembed/1.0/embed?url=http://snapp.ir/contact_us/&format=FUZZ
-
+http://site.ir:80/wp-json/oembed/1.0/embed?url=http://site.ir/contact_us/&format=FUZZ
+```
 و URLهایی که شامل پارامترهایی مانند nonce=FUZZ, token=FUZZ, redirect_to=FUZZ, login=FUZZ هستند.
 
 این URLها احتمالاً به صفحات مدیریتی یا با پارامترهای ورودی حساس مرتبط بوده که در صورت نبود تدابیر امنیتی مناسب می‌توانند به آسیب‌پذیری منجر شوند.
@@ -113,19 +123,17 @@ http://snapp.ir:80/wp-json/oembed/1.0/embed?url=http://snapp.ir/contact_us/&form
 بیایید یکی از URLهای پرریسک را انتخاب کنیم و برای آن یک PoC (Proof of Concept) تهیه کنیم.
 
 🎯 هدف انتخاب‌شده برای تست آسیب‌پذیری:
-bash
-Copy
-Edit
-http://snapp.ir:80/wp-login.php?redirect_to=http://snapp.ir/wp-admin/&reauth=FUZZ
+```
+http://site.ir:80/wp-login.php?redirect_to=http://site.ir/wp-admin/&reauth=FUZZ
+```
 📌 دلیل انتخاب:
 پارامتر redirect_to مستعد Open Redirect است؛ یعنی ممکن است کاربر پس از لاگین، به آدرس دلخواه هکر هدایت شود.
 
 🧪 PoC برای تست Open Redirect:
 🔗 آدرس تست‌شده:
-plaintext
-Copy
-Edit
-http://snapp.ir:80/wp-login.php?redirect_to=https://evil.com
+```
+http://site.ir:80/wp-login.php?redirect_to=https://evil.com
+```
 ✅ سناریوی تست:
 کاربر روی لینک بالا کلیک می‌کند.
 
