@@ -37,6 +37,9 @@
 
 یه سایت خوب برای دورک پیدا کردن
 
-https://dorkking.blindf.com/
+[ dorkking ](https://dorkking.blindf.com/)
 
 =======================================
+
+
+[ broken-authorization-apis-autoswagger ](https://www.intruder.io/research/broken-authorization-apis-autoswagger)
