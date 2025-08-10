@@ -6,7 +6,7 @@
 ===>>> [ subdomainfinder.c99 ](https://subdomainfinder.c99.nl)
 
 ==================================================================
-Recon
+===>>>Recon
 
 Subdomain Enumeration
 Port Scanning
@@ -17,6 +17,10 @@ Links
 Parameters
 Fuzzing
 Exploitation
+
+
+===============================================================
+
 
 Command Injection
 CORS Misconfiguration
@@ -48,6 +52,10 @@ Subdomain Takeover
 Useful
 Uncategorized
 Recon
+
+===============================================================
+
+
 Subdomain Enumeration
 Sublist3r - Fast subdomains enumeration tool for penetration testers
 Amass - In-depth Attack Surface Mapping and Asset Discovery
