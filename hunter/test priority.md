@@ -1,6 +1,6 @@
-Test priority
+# Test priority
 
-critical:
+## critical:
 - RCE (emote code execution)
 - buffer over flow
 - zeroday vulnerabilities
@@ -8,7 +8,7 @@ critical:
 - critical configuration flaws
 
 
-high:
+## high:
 - sql injection
 - privilege escalation
 - sensitive data exposure
