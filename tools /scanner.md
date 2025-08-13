@@ -24,6 +24,7 @@ link youtube: ===>> https://www.youtube.com/watch?v=2K2gTCHt6kg
 
 fuff
 
+===>>> https://www.yeswehack.com/learn-bug-bounty/parameter-discovery-quick-guide-to-start?utm_source=chatgpt.com
 ===========================================================================================
 
 
