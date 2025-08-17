@@ -56,5 +56,5 @@ https://chromewebstore.google.com/detail/hack-tools/cmbndhnoonmghfofefkcccljbkdp
 
 ===================================================================================
 
-===>>> NarrowX
-(https://github.com/afssec/NarrowX/tree/main)
+NarrowX
+===>>>(https://github.com/afssec/NarrowX/tree/main)
