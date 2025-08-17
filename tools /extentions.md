@@ -51,3 +51,10 @@ https://chromewebstore.google.com/detail/editthiscookie-v3/ojfebgpkimhlhcblbalbf
 
 ===>>> hack-tools
 https://chromewebstore.google.com/detail/hack-tools/cmbndhnoonmghfofefkcccljbkdpamhi
+
+
+
+===================================================================================
+
+===>>> NarrowX
+(https://github.com/afssec/NarrowX/tree/main)
