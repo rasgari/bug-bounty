@@ -57,4 +57,4 @@ extentions for browser:
 ===================================================================================
 
 NarrowX
-===>>>(https://github.com/afssec/NarrowX/tree/main)
+===>>> https://github.com/afssec/NarrowX/tree/main
