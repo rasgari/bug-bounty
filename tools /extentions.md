@@ -1,10 +1,10 @@
 extentions for browser:
 
- HackBar:
+ HackBar
 ===>>> https://chromewebstore.google.com/detail/hackbar/ginpbkfigcoaokgflihfhhmglmbchinc
 
 
- OWASP Penetration Testing Kit:
+ OWASP Penetration Testing Kit
 ===>>> https://chromewebstore.google.com/detail/owasp-penetration-testing/ojkchikaholjmcnefhjlbohackpeeknd
 
  hunter-email-finder-exten
