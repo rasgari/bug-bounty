@@ -41,7 +41,10 @@ HEADERS = {"User-Agent": "SafeScanner/1.0 (+non-intrusive)"}
 # Regexes
 SQL_ERROR_RE = re.compile(r"(you have an error in your sql syntax|sql syntax|mysql|syntax error|ora-|psql|sqlstate)", re.I)
 NOSQL_HINT_RE = re.compile(r"(mongodb|mongo|no such command|bson|nosql)", re.I)
-CMD_INJECTION_HINT_RE = re.compile(r"(;\\s*id|\\bwhoami\\b|cmd=|/bin/sh|/bin/bash|system\(\)", re.I)
+CMD_INJECTION_HINT_RE = re.compile(
+    r"(;\s*id|\bwhoami\b|cmd=|/bin/sh|/bin/bash|system\(\))",
+    re.I
+)
 XXE_CONTENT_RE = re.compile(r"<\?xml|<!DOCTYPE[^>]*ENTITY", re.I)
 XSS_SINKS_RE = re.compile(r"(document\.write|innerHTML|outerHTML|insertAdjacentHTML|eval\(|location\.hash|location\.search)", re.I)
 DESERIALIZE_HINT_RE = re.compile(r"(serialize|deserialize|pickle|unserialize|gob|java\.io\.Serializable|PHP_OBJECT)", re.I)
