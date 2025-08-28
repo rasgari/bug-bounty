@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys, re, csv, os, signal
+import sys, re, csv, os, signal, time, datetime
 import concurrent.futures as cf
 from urllib.parse import urlparse, urljoin
 import requests
@@ -18,7 +18,7 @@ GOLD_KEYWORDS = [
     "core","client","server","utils","base"
 ]
 
-# ---------- Severity map ----------
+# ---------- Severity map (higher = more مهم) ----------
 SEVERITY = {
     "Hardcoded Credentials": 10,
     "JWT / API Keys": 10,
@@ -37,7 +37,7 @@ SEVERITY = {
     "Service/Endpoint Map": 5,
 }
 
-# ---------- Regex, checks, etc. ----------
+# ---------- Regex: keys/tokens/emails/urls ----------
 AWS_ACCESS = re.compile(r"\bAKIA[0-9A-Z]{16}\b")
 AWS_SECRET = re.compile(r"(?i)aws(.{0,10})?(secret|key).{0,3}[:=]\s*['\"]?([A-Za-z0-9/+=]{30,})")
 GCP_KEY = re.compile(r"AIza[0-9A-Za-z\-_]{35}")
@@ -56,12 +56,14 @@ CONFIG_KEYS = re.compile(r"(?i)(config|settings|env|secret|salt)")
 ID_PARAM = re.compile(r"(?i)\b(id|user_id|account_id|order_id|uid|pid)\b")
 NUM_IN_URL = re.compile(r"/\d{1,12}(/|$)")
 
+# Outdated libs quick checks (heuristic)
 OUTDATED_LIBS = [
     (re.compile(r"jquery-([12])\.\d+(\.\d+)?\.js", re.I), "jquery < 3.5 (XSS CVEs)"),
     (re.compile(r"lodash(?:\.|-)3\.", re.I), "lodash v3 (prototype pollution CVEs)"),
     (re.compile(r"angular(?:\.|-)1\.", re.I), "AngularJS 1.x (EOL)"),
 ]
 
+# Common sensitive files (safe GET)
 SENSITIVE_PATHS = [
     "/.env", "/.env.local", "/.env.development", "/.env.production",
     "/config.json", "/settings.json", "/app.config.json",
@@ -71,12 +73,204 @@ SENSITIVE_PATHS = [
     "/admin", "/administrator", "/login", "/auth", "/hidden", "/secret"
 ]
 
-# --- تمام توابع اصلی (read_urls, norm_url, http_get, fetch_text, extract_assets, guess_more_assets, analyze_text, check_sensitive_paths, scan_base) بدون تغییر مثل قبل اینجا می‌مونند ---
+# ---------- Helper functions ----------
+def read_urls(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return [ln.strip() for ln in f if ln.strip()]
 
-# --- Save Reports ---
+def norm_url(u):
+    p = urlparse(u)
+    if not p.scheme:
+        return "http://" + u
+    return u
+
+def http_get(url):
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=TIMEOUT, verify=False, allow_redirects=True)
+        return r
+    except requests.RequestException:
+        return None
+
+def fetch_text(url):
+    r = http_get(url)
+    if r is None:
+        return None, None
+    ctype = r.headers.get("Content-Type","").lower()
+    # skip binaries
+    if any(b in ctype for b in ["image/","font/","octet-stream","pdf"]):
+        return None, r.headers
+    return r.text, r.headers
+
+def extract_assets(base_url, html):
+    soup = BeautifulSoup(html, "html.parser")
+    assets = set()
+    # JS/JSON/Manifest/CSS
+    for tag in soup.find_all(["script","link","a"]):
+        src = tag.get("src") or tag.get("href")
+        if not src: 
+            continue
+        full = urljoin(base_url, src)
+        if any(full.lower().endswith(ext) for ext in [".js",".mjs",".json",".map",".txt",".config",".env",".lock",".yml",".yaml",".xml",".html",".htm",".css",".wasm",".md"]):
+            assets.add(full)
+        # also pick query-marked bundles (e.g., main.js?v=)
+        if any(k in full.lower() for k in GOLD_KEYWORDS):
+            assets.add(full)
+    return list(assets)
+
+def guess_more_assets(base_url):
+    # try common paths (don’t brute force too much)
+    candidates = [
+        "/main.js","/app.js","/runtime.js","/bundle.js","/polyfills.js",
+        "/static/js/main.js","/static/js/app.js","/assets/app.js",
+        "/config.json","/settings.json","/manifest.json","/sw.js",
+        "/assets/index.js","/js/app.js","/js/main.js"
+    ]
+    return [urljoin(base_url, p) for p in candidates]
+
+# analyze_text returns list of findings (dicts). We will add timestamp when collecting.
+def analyze_text(url, text, headers):
+    findings = []
+
+    def add(kind, detail, evidence=None):
+        findings.append({
+            "type": kind,
+            "url": url,
+            "detail": detail,
+            "evidence": (evidence or "")[:240],
+            "severity": SEVERITY.get(kind, 5)
+        })
+
+    # 1) Keys / tokens / creds / JWT
+    if AWS_ACCESS.search(text) or AWS_SECRET.search(text) or GCP_KEY.search(text) or GENERIC_APIKEY.search(text) or JWT_RE.search(text):
+        token_snip = None
+        m = JWT_RE.search(text)
+        if m:
+            token_snip = "…"+m.group(0)
+        add("JWT / API Keys", "Key/Token pattern detected", token_snip)
+
+    if BASIC_CRED.search(text):
+        add("Hardcoded Credentials", "username/password pattern in source")
+
+    # 2) Sensitive info leak / emails / config hints
+    if CONFIG_KEYS.search(text):
+        add("Sensitive Info Leak", "Config/Env related strings in client code")
+
+    emails = set(EMAIL_RE.findall(text))
+    if emails:
+        add("Sensitive Info Leak", f"Emails exposed: {', '.join(list(emails)[:5])}")
+
+    # 3) WebSocket endpoints
+    for m in WS_RE.findall(text):
+        add("WebSocket Endpoint", f"Found {m}")
+
+    # 4) Hidden parameters / Open redirect params
+    if OPEN_REDIRECT_KEYS.search(text):
+        add("Open Redirect (param)", "Redirect-like parameter referenced in source (next/return/url/redirect)")
+
+    # 5) Upload endpoints hint
+    if UPLOAD_HINT.search(text):
+        add("Upload Endpoint (potential)", "Upload/multipart hints in client bundle")
+
+    # 6) RFI/RCE hint (server-side references showing up in bundle)
+    if RFI_RCE_HINT.search(text):
+        add("RFI/RCE Hint", "Dangerous exec/system/child_process references observed")
+
+    # 7) DOM XSS sinks
+    if DOM_XSS_SINKS.search(text):
+        add("Sensitive Info Leak", "DOM sinks in client (innerHTML/document.write/eval)")
+
+    # 8) IDOR candidate (id-ish params or numeric ids in path)
+    if ID_PARAM.search(text):
+        add("IDOR Candidate", "id/user_id/order_id mentioned in client code")
+    if NUM_IN_URL.search(url):
+        add("IDOR Candidate", "Numeric id in URL path")
+
+    # 9) Auth bypass hint
+    if AUTH_BYPASS_HINT.search(text):
+        add("Authentication Bypass Hint", "Suspicious auth flags in bundle")
+
+    # 10) Outdated libs quick check
+    for rx, msg in OUTDATED_LIBS:
+        if rx.search(url) or rx.search(text):
+            add("Outdated Library (CVE-prone)", msg)
+
+    # 11) Dependency disclosure
+    if "package.json" in url or ("content-type" in (headers or {}) and "json" in (headers.get("Content-Type","").lower())):
+        if '"dependencies"' in (text or "") or '"devDependencies"' in (text or ""):
+            add("Dependency/Package Disclosure", "package.json-like content visible")
+
+    # 12) Service/endpoint map (collect URLs embedded in code)
+    embedded = [m for m in URL_IN_TEXT.findall(text) if not m.endswith((".png",".jpg",".jpeg",".gif",".svg",".webp"))]
+    if embedded:
+        add("Service/Endpoint Map", f"{min(len(embedded),10)} embedded URLs (sample): {', '.join(embedded[:5])}")
+
+    return findings
+
+def check_sensitive_paths(base_url):
+    results = []
+    for path in SENSITIVE_PATHS:
+        url = urljoin(base_url, path)
+        r = http_get(url)
+        if not r:
+            continue
+        code = r.status_code
+        if code == 200:
+            ctype = r.headers.get("Content-Type","").lower()
+            text = r.text if "text" in ctype or "json" in ctype or ctype == "" else ""
+            # classify
+            if path.startswith("/.env") or path.endswith(".config.js") or path.endswith(".config") or path.endswith(".json"):
+                results.append({"type":"Config/Env Disclosure","url":url,"detail":f"{path} accessible (HTTP {code})","evidence":(text[:200] if text else ""), "severity":SEVERITY["Config/Env Disclosure"]})
+            elif path in ("/admin","/administrator","/login","/auth","/hidden","/secret"):
+                results.append({"type":"Hidden Login/Portal","url":url,"detail":f"Portal path accessible (HTTP {code})","evidence":"", "severity":SEVERITY["Hidden Login/Portal"]})
+            elif path == "/package.json":
+                results.append({"type":"Dependency/Package Disclosure","url":url,"detail":"package.json readable","evidence":(text[:200] if text else ""), "severity":SEVERITY["Dependency/Package Disclosure"]})
+            elif path in ("/sw.js","/manifest.json","/robots.txt"):
+                # informational, can reveal hidden routes
+                results.append({"type":"Service/Endpoint Map","url":url,"detail":f"{path} accessible","evidence":(text[:200] if text else ""), "severity":SEVERITY["Service/Endpoint Map"]})
+        elif code in (401,403):  # existence but protected
+            if path in ("/admin","/administrator"):
+                results.append({"type":"Hidden Login/Portal","url":url,"detail":f"{path} present but protected (HTTP {code})","evidence":"", "severity":SEVERITY["Hidden Login/Portal"]})
+    return results
+
+def scan_base(base_url):
+    base_url = norm_url(base_url)
+    findings = []
+
+    # 1) fetch base
+    text, headers = fetch_text(base_url)
+    if text is None and headers is None:
+        return findings
+
+    if text:
+        findings += analyze_text(base_url, text, headers)
+
+    # 2) extract and guess assets
+    assets = set()
+    if text:
+        for a in extract_assets(base_url, text):
+            assets.add(a)
+    for g in guess_more_assets(base_url):
+        assets.add(g)
+
+    # 3) fetch assets (in parallel, but limit here per base)
+    def fetch_and_analyze(u):
+        t, h = fetch_text(u)
+        if t is None:
+            return []
+        return analyze_text(u, t, h)
+
+    with cf.ThreadPoolExecutor(max_workers=8) as ex:
+        for res in ex.map(fetch_and_analyze, list(assets)):
+            findings.extend(res)
+
+    # 4) sensitive paths check
+    findings.extend(check_sensitive_paths(base_url))
+
+    return findings
+
 def save_csv(findings, path="report_gold.csv"):
     with open(path, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["severity","type","url","detail","evidence"])
+        w = csv.DictWriter(f, fieldnames=["severity","type","url","detail","evidence","timestamp"])
         w.writeheader()
         for it in findings:
             w.writerow({
@@ -84,13 +278,16 @@ def save_csv(findings, path="report_gold.csv"):
                 "type": it["type"],
                 "url": it["url"],
                 "detail": it.get("detail",""),
-                "evidence": it.get("evidence","")
+                "evidence": it.get("evidence",""),
+                "timestamp": it.get("timestamp","")
             })
 
 def save_html(findings, path="report_gold.html"):
     rows = []
     for it in findings:
-        rows.append(f"<tr><td>{it.get('severity',5)}</td><td>{it['type']}</td><td>{it['url']}</td><td>{it.get('detail','')}</td><td><pre style='white-space:pre-wrap'>{(it.get('evidence','') or '')}</pre></td></tr>")
+        ts = it.get("timestamp")
+        ts_str = datetime.datetime.fromtimestamp(ts).isoformat() if ts else ""
+        rows.append(f"<tr><td>{it.get('severity',5)}</td><td>{it['type']}</td><td>{it['url']}</td><td>{it.get('detail','')}</td><td><pre style='white-space:pre-wrap'>{(it.get('evidence','') or '')}</pre></td><td>{ts_str}</td></tr>")
     html = f"""<!doctype html>
 <html><head><meta charset="utf-8"><title>GoldMine Scan Report</title>
 <style>
@@ -103,38 +300,116 @@ pre{{margin:0;max-height:160px;overflow:auto}}
 <h1>GoldMine Security Scan (passive)</h1>
 <p>این گزارش با روش غیرتهاجمی تولید شده است؛ هر یافته نیاز به تأیید دستی دارد.</p>
 <table>
-<thead><tr><th>Severity</th><th>Type</th><th>URL/Asset</th><th>Detail</th><th>Evidence (snippet)</th></tr></thead>
+<thead><tr><th>Severity</th><th>Type</th><th>URL/Asset</th><th>Detail</th><th>Evidence (snippet)</th><th>Timestamp</th></tr></thead>
 <tbody>
-{''.join(rows) if rows else '<tr><td colspan="5">No findings.</td></tr>'}
+{''.join(rows) if rows else '<tr><td colspan="6">No findings.</td></tr>'}
 </tbody></table>
 </body></html>"""
     with open(path, "w", encoding="utf-8") as f:
         f.write(html)
 
-# --- Ctrl+C Handler ---
+# ---------- Summary generator ----------
+def generate_summary(findings, start_ts, end_ts, path="report_summary.txt"):
+    duration = end_ts - start_ts
+    total_findings = len(findings)
+    # group by subdomain and path
+    sub_counts = {}
+    path_counts = {}
+    vuln_type_counts = {}
+    param_hits = {}
+    entries = []
+
+    for it in findings:
+        url = it.get("url","")
+        parsed = urlparse(url)
+        host = parsed.hostname or ""
+        pathname = parsed.path or "/"
+        sub_counts[host] = sub_counts.get(host,0) + 1
+        path_counts[pathname] = path_counts.get(pathname,0) + 1
+        t = it.get("type","")
+        vuln_type_counts[t] = vuln_type_counts.get(t,0) + 1
+        # parameter heuristics: search detail/evidence for param names
+        detail = (it.get("detail","") + " " + it.get("evidence","")).lower()
+        for key in ["redirect","next","return","token","id","user_id","order_id","session","auth","api_key","secret"]:
+            if key in detail:
+                param_hits[key] = param_hits.get(key,0) + 1
+        # timestamp to human
+        ts = it.get("timestamp")
+        ts_str = datetime.datetime.fromtimestamp(ts).isoformat() if ts else "N/A"
+        entries.append((ts, ts_str, t, url, it.get("detail","")))
+
+    # sort
+    top_subs = sorted(sub_counts.items(), key=lambda x: x[1], reverse=True)[:20]
+    top_paths = sorted(path_counts.items(), key=lambda x: x[1], reverse=True)[:20]
+    top_vuln_types = sorted(vuln_type_counts.items(), key=lambda x: x[1], reverse=True)
+    top_params = sorted(param_hits.items(), key=lambda x: x[1], reverse=True)
+
+    # write summary
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("GoldMine Scan Summary\n")
+        f.write("=====================\n")
+        f.write(f"Start Time: {datetime.datetime.fromtimestamp(start_ts).isoformat()}\n")
+        f.write(f"End Time:   {datetime.datetime.fromtimestamp(end_ts).isoformat()}\n")
+        f.write(f"Duration (sec): {duration:.2f}\n")
+        f.write(f"Total Findings: {total_findings}\n\n")
+
+        f.write("Top Vulnerable Subdomains (host : count)\n")
+        f.write("----------------------------------------\n")
+        for host,count in top_subs:
+            f.write(f"{host} : {count}\n")
+        f.write("\nTop Vulnerable Paths (path : count)\n")
+        f.write("-----------------------------------\n")
+        for p,count in top_paths:
+            f.write(f"{p} : {count}\n")
+        f.write("\nVulnerabilities by Type (type : count)\n")
+        f.write("-------------------------------------\n")
+        for t,c in top_vuln_types:
+            f.write(f"{t} : {c}\n")
+        f.write("\nTop risky parameters / keywords found in details/evidence\n")
+        f.write("-------------------------------------------------------\n")
+        for k,c in top_params:
+            f.write(f"{k} : {c}\n")
+
+        f.write("\nSample timeline (most recent 30 findings):\n")
+        f.write("-----------------------------------------\n")
+        entries_sorted = sorted(entries, key=lambda x: (x[0] or 0), reverse=True)[:30]
+        for ts, ts_str, t, url, det in entries_sorted:
+            f.write(f"[{ts_str}] {t} -> {url} -- {det}\n")
+
+    print(f"[+] Summary written to {path}")
+
+# ---------- Ctrl+C handler & global storage ----------
 all_findings = []
-def save_reports_now():
+scan_start_ts = None
+
+def save_all_and_exit():
+    global all_findings, scan_start_ts
+    end_ts = time.time()
+    # ensure severity sort
     all_findings.sort(key=lambda x: x.get("severity",5), reverse=True)
     save_csv(all_findings, "report_gold.csv")
     save_html(all_findings, "report_gold.html")
-    print("\n[!] Partial report saved (Ctrl+C) -> report_gold.csv, report_gold.html")
+    generate_summary(all_findings, scan_start_ts or end_ts, end_ts, path="report_summary.txt")
+    print("\n[!] Reports saved: report_gold.csv, report_gold.html, report_summary.txt")
 
 def handle_sigint(sig, frame):
     print("\n[!] Ctrl+C detected, stopping scan...")
-    save_reports_now()
+    save_all_and_exit()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, handle_sigint)
 
-# --- Main ---
+# ---------- Main ----------
 def main():
-    global all_findings
+    global all_findings, scan_start_ts
     if len(sys.argv) != 2:
         print("Usage: python goldmine_scanner.py urls.txt")
         sys.exit(1)
 
     bases = [norm_url(u) for u in read_urls(sys.argv[1])]
     print(f"[+] Loaded {len(bases)} base URLs")
+
+    scan_start_ts = time.time()
 
     with cf.ThreadPoolExecutor(max_workers=MAX_WORKERS) as ex:
         futs = {ex.submit(scan_base, b): b for b in bases}
@@ -143,6 +418,11 @@ def main():
             try:
                 items = fut.result()
                 if items:
+                    # add timestamp to each item and sort local findings by severity
+                    ts_now = time.time()
+                    for it in items:
+                        if "timestamp" not in it:
+                            it["timestamp"] = ts_now
                     items.sort(key=lambda x: x.get("severity",5), reverse=True)
                     print(f"[!] {b}: {len(items)} findings")
                     all_findings.extend(items)
@@ -151,8 +431,9 @@ def main():
             except Exception as e:
                 print(f"[x] {b}: error {e}")
 
-    save_reports_now()
-    print("\nDone. Full report saved: report_gold.csv, report_gold.html")
+    # finished normally
+    save_all_and_exit()
+    print("\nDone. Full report saved: report_gold.csv, report_gold.html, report_summary.txt")
 
 if __name__ == "__main__":
     main()
