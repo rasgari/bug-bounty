@@ -74,6 +74,6 @@ https://pentest-tools.com/website-vulnerability-scanning/website-scanner
 
 بیش از ۱۰,۰۰۰ CVE رو هم پوشش می‌ده از جمله Log4Shell و Citrix Bleed. اگر سایت بزرگی داری، false positives رو دستی verify کن.
 
-⭐️ @ZeroSec_team
+⭐️ t.me/ZeroSec_team
 
 =======================================
