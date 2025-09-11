@@ -72,7 +72,7 @@ log tampering
 
 
 
-# ✅ CEH v13 Practical Checklist – Web & Network
+ ✅ CEH v13 Practical Checklist – Web & Network
 
 ## 1. Reconnaissance (جمع‌آوری اطلاعات)
 - [ ] بررسی دامنه و ساب‌دامین‌ها  
