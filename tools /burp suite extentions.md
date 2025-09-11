@@ -4,6 +4,7 @@
 - Autorize
 - ActiveScan++
 - Collaborator
+- Turbo Intruder
 
 
 
