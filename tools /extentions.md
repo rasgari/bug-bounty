@@ -62,8 +62,9 @@ NarrowX
 ======================================
 
 pwnfox
-===>>> https://addons.mozilla.org/en-US/firefox/addon/pwnfox/
+===>>> firefox ===>>> https://addons.mozilla.org/en-US/firefox/addon/pwnfox/
 
+===>>> github ===>> https://github.com/yeswehack/PwnFox
 
 ابزار PwnFox  افزونه‌ ای برای Firefox/Burp Suite که ابزارهای مفیدی برای یک باگ‌ هانتر فراهم می‌ کند:
 
