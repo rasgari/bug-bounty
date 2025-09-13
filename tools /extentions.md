@@ -61,6 +61,10 @@ NarrowX
 
 ======================================
 
+pwnfox
+===>>> https://addons.mozilla.org/en-US/firefox/addon/pwnfox/
+
+
 ابزار PwnFox  افزونه‌ ای برای Firefox/Burp Suite که ابزارهای مفیدی برای یک باگ‌ هانتر فراهم می‌ کند:
 
 ✅ راه‌اندازی BurpProxy با یک کلیک
