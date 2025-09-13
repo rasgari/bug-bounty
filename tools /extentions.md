@@ -58,3 +58,18 @@ extentions for browser:
 
 NarrowX
 ===>>> https://github.com/afssec/NarrowX/tree/main
+
+======================================
+
+ابزار PwnFox  افزونه‌ ای برای Firefox/Burp Suite که ابزارهای مفیدی برای یک باگ‌ هانتر فراهم می‌ کند:
+
+✅ راه‌اندازی BurpProxy با یک کلیک
+✅ پروفایل‌های Container برای استفاده از چند حساب کاربری در یک مرورگر
+✅ ثبت (لاگ) پیام‌های PostMessage
+✅ جعبه‌ابزار (Toolbox) و ابزارهای دیگر
+
+این autochrome چیزی مشابه برای Chrome (یا Chromium).
+
+t.me/TryHackBox
+
+======================================
