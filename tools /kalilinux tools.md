@@ -12,7 +12,6 @@ sudo apt install -y golang git build-essential
 
 
 
-
 ### subfinder
 
 ```
