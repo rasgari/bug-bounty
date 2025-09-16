@@ -142,3 +142,91 @@ zap.sh -daemon -config api.disablekey=true -cmd -quickurl https://example.com -q
 
 ---
 
+4) ترفندها برای «کمترین زمان» و «کمترین نویز»
+
+پیش‌فیلتر کردن:
+```
+با httpx فقط URLهای alive را بفرست به اسکنرها تا زمان تلف نشه.
+```
+استفاده از templates/پریست‌ها: 
+```
+Nuclei و ZAP quick scans را روی الویت‌های critical/high بزن. (قالب‌های Nuclei مرتب آپدیت میشه — اونا رو pull کن). 
+```
+
+توازی/Threading:
+
+```
+ابزارهایی مثل ffuf, nuclei, httpx threading دارن — مقدار threads رو متناسب با هدف و rate-limit تنظیم کن.
+```
+تعیین اولویت (prioritization):
+```
+ابتدا صفحات لاگین، صفحات آپلود، و endpointهای JSON/API را بررسی کن — این‌ها معمولا بیشترین «اثر» را دارند.
+```
+
+reducing false positives: 
+```
+از پذیرش نتایج با آستانه پایین (e.g. status 200 but tiny body) خودداری کن؛ از response fingerprints استفاده کن.
+```
+
+استفاده از browser automation برای جاوااسکریپت‌محور‌ها:
+```
+Playwright/Puppeteer برای صفحات heavy-JS که scanners معمولی پوشش نمیدن.
+```
+تست توکن/احراز هویت: 
+```
+خودکار سازی لاگین و session handling در Burp / ZAP / Playwright تا توکن‌محور endpoints هم پوشش داده بشن.
+```
+
+
+---
+
+5) جایی که اتوماسیون شکست می‌خورد — و چه کار کنیم
+```
+Business-logic / Authorization issues (IDOR, workflow bugs): اتومات سخت می‌تفهمه؛ اینجا باید manual باشی و تست‌های منطقی بسازی.
+
+False positives & noisy exploits: همیشه دستی تأیید کن و PoC کوچک بساز.
+
+Rate limits / WAF: قبل از اسکن ترافیک را آهسته کن، از IP rotate/proxy استفاده کن، یا حالت passive رو بیشتر کن.
+```
+
+---
+
+6) ادغام در CI / Continuous Scanning
+```
+Burp و ZAP هر دو راه‌های CI دارند: میشه scan توی pipeline (e.g. GitHub Actions, GitLab CI) اجرا کرد و روی change-based scanning تمرکز کرد. این باعث میشه با هر دِپلوی جدید سریع اسکن انجام بشه.
+```
+
+---
+
+7) فهرست چک‌لیست اتومات (سریع برای اجرا)
+```
+subfinder/amass → alive check.
+
+gather URLs (waybackurls/gau).
+
+ffuf روی مسیرها و فایل‌ها.
+
+nuclei با templates آخرین ورژن.
+
+dalfox / sqlmap روی پارامترهای مشکوک.
+
+ZAP/Burp active scan روی محدوده‌های با اهمیت.
+
+manual verification + PoC.
+
+report (CSV/HTML) + issue filing.
+```
+
+---
+
+8) منابع و ادامه‌ مطالعه (چند مرجع برای آپدیت بودن)
+```
+Nuclei templates (GitHub) — مرتب آپدیت میشه؛ ازش استفاده کن. 
+```
+
+مستندات Burp CI/Automation — برای ادغام در pipeline. 
+
+```
+OWASP ZAP automation docs/releases — برای اجرای headless و Automation Framework.
+```
+---
