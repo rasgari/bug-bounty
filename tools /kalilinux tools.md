@@ -54,3 +54,8 @@ go install -v github.com/tomnomnom/waybackurls@latest
 ```
 go install -v github.com/lc/gau/v2/cmd/gau@latest
 ```
+
+```
+sudo apt install -y seclists
+```
+# wordlists in /usr/share/seclists/ یا /usr/share/wordlists/
