@@ -44,7 +44,9 @@ wfuzz, ffuf با payload lists و الگوهای gf برای پارامترها.
 jq, httpx, anew, tee برای لاگ‌ها/خروجی‌ها
 ```
 
+
 ---
+
 
 2) جریان کاری اتومات‌شده (پایپ‌لاین پیشنهادی — قابل اسکریپت شدن)
 
@@ -98,4 +100,45 @@ dalfox برای XSS روی لیست پارامترها؛ sqlmap برای پار�
 ```
 خروجی‌ها را به CSV/HTML/JSON تبدیل کن؛ برای CI می‌توان گزارش‌ها را پیوست کرد (Burp/ZAP هر دو از CI integration پشتیبانی می‌کنند).
 ```
+
+
 ---
+
+3) مثال‌های واقعی (دستورات پیشنهادی)
+
+Subdomains + live check:
+```
+subfinder -d example.com -silent | anew subs.txt
+httpx -l subs.txt -silent -status-code -o alive.txt
+```
+
+Collect URLs:
+```
+cat alive.txt | gau | waybackurls | sort -u > all_urls.txt
+httpx -l all_urls.txt -status-code -o alive_urls.txt
+```
+
+Run Nuclei:
+```
+nuclei -l alive_urls.txt -t cves/ -severities critical,high -o nuclei_findings.txt
+```
+
+Fuzz common dirs:
+```
+ffuf -w /path/wordlists/common.txt -u https://example.com/FUZZ -ac -o ffuf_out.json
+```
+
+Dalfox XSS scan (params from gf):
+```
+cat all_urls.txt | gf xss | dalfox file - --basic
+```
+
+ZAP headless baseline (example):
+```
+zap.sh -daemon -config api.disablekey=true -cmd -quickurl https://example.com -quickout zap_report.html
+```
+
+(دستورها را بسته به نسخه‌ی ابزار و نیازتون تنظیم کن).
+
+---
+
