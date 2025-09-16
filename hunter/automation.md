@@ -19,7 +19,7 @@ ffuf, dirsearch, gobuster — دایرکتوری/فایل‌های مخفی.
 Fingerprinting & fingerprint templates: nuclei + community templates — برای تشخیص سریع آسیب‌پذیری‌های شناخته‌شده. (مخزن قالب‌ها مرتب آپدیت میشه؛ استفاده از آن بسیار سریع خطاها را نشان می‌دهد). 
 
 اسکن پروکسی/تحلیل ترافیک: 
-``
+```
 Burp Suite (Community/Professional/DAST) — پروکسی، repeater، intruder، extensions؛ قابلیت ادغام در CI هم داره. 
 ```
 
