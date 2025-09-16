@@ -43,4 +43,59 @@ wfuzz, ffuf با payload lists و الگوهای gf برای پارامترها.
 ```
 jq, httpx, anew, tee برای لاگ‌ها/خروجی‌ها
 ```
-(منابع مقایسه‌ای و فهرست‌ها را در مطلب‌های مروری ۲۰۲۵ می‌توان دید).
+
+--
+
+2) جریان کاری اتومات‌شده (پایپ‌لاین پیشنهادی — قابل اسکریپت شدن)
+
+جمع‌آوری دامنه/ساب‌دومین‌ها
+
+```
+subfinder/amass → dedupe → massdns/httpx برای alive-check.
+```
+مثال: subfinder -d example.com -o subdomains.txt
+
+جمع‌آوری URLها / صفحات تاریخی
+```
+waybackurls + gau → filter با httpx برای alive URLs.
+```
+مثال: cat subdomains.txt | waybackurls | httpx -silent -status-code -o urls.txt
+
+دایرکتوری و فuzzer روی مسیرهای حساس
+```
+ffuf روی هر host با wordlist مناسب (api, admin, upload, backup).
+```
+نمونه: ffuf -u https://FUZZ.example.com/FUZZ -w wordlist.txt -mc all -o ffuf.json
+
+اسکن سریع با Nuclei
+```
+run nuclei against URLs/subdomains using latest templates (tune template severity). Nuclei سریع و قابل دسته‌بندی است؛ جامعه قالب‌ها مرتب ارتقاء می‌یابد. 
+```
+
+نمونه: nuclei -l urls.txt -t cves/ -o nuclei-results.txt
+
+DAST / Proxy scanning
+
+```
+راه‌اندازی Burp یا ZAP (headless) برای Active Scanning روی محدوده‌های هدف. می‌توان با اسکریپت‌های automation در ZAP یا CI/CLI در Burp اجرا کرد. 
+```
+
+فازی / تست پارامترها
+```
+استخراج پارامترها از URLs با gf pattern‌ها، سپس ffuf/wfuzz زدن روی پارامترهای ورودی.
+```
+تست‌های خودکار مرتبط با XSS/SQLi
+```
+dalfox برای XSS روی لیست پارامترها؛ sqlmap برای پارامترهای مشکوک SQL.
+```
+تریز و کاهش خطا (triage)
+```
+خودکار: حذف false-positiveهای شناخته‌شده (status codes, responses length).
+
+دستی: بررسی با Burp Repeater, browser، و exploit proof-of-concept.
+```
+گزارش و خروجی
+```
+خروجی‌ها را به CSV/HTML/JSON تبدیل کن؛ برای CI می‌توان گزارش‌ها را پیوست کرد (Burp/ZAP هر دو از CI integration پشتیبانی می‌کنند).
+```
+--
