@@ -14,6 +14,12 @@ sudo apt install -y golang git build-essential
 nuclei -update-templates
 ```
 
+
+```
+chmod +x web_auto_scanner.py
+python3 web_auto_scanner.py -d target.com --threads 20 --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt
+```
+
 ---
 
 ### subfinder
