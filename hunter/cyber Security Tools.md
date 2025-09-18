@@ -1,16 +1,77 @@
-# Cyber Security Tools — ابزارهای امنیت سایبری
+# Cyber Security Tools — ابزارهای امنیت سایبریابزارهای امنیت سایبری
 
-| دسته‌بندی (Category) | ابزارها (Tools) |
-|---|---|
-| **Information Gathering** (جمع‌آوری اطلاعات) | Nmap<br>Shodan<br>Maltego<br>TheHarvester<br>Recon-NG<br>Amass<br>Censys<br>OSINT Framework<br>Gobuster |
-| **Wireless Hacking** (هک شبکه بی‌سیم) | Aircrack-NG<br>Wifite<br>Kismet<br>TCPDump<br>Airsnort<br>Netstumbler<br>Reaver |
-| **Software Engineering / Phishing** | GoPhish<br>HiddenEye<br>SocialFish<br>EvilURL<br>Evilginx |
-| **Exploitation** (بهره‌برداری) | Burp Suite<br>Metasploit Framework<br>SQLMap<br>ZAP<br>ExploitDB<br>Core Impact<br>Cobalt Strike |
-| **Password Cracking** (شکستن رمز عبور) | John The Ripper<br>Hydra<br>Hashcat<br>OPHCrack<br>Medusa<br>THC-Hydra<br>Cain & Abel |
-| **Vulnerability Scanning** (اسکن آسیب‌پذیری) | OpenVAS<br>Nessus<br>AppScan<br>LYNIS<br>Retina<br>Nexpose |
-| **Forensics** (جرم‌شناسی دیجیتال) | SleuthKit<br>Autopsy<br>Volatility<br>Guymager<br>Foremost<br>Binwalk<br>Wireshark |
-| **Web Application Assessment** (ارزیابی امنیت اپلیکیشن وب) | OWASP ZAP<br>Burp Suite<br>Nikto<br>ZAP<br>WPScan<br>Gobuster<br>App Spider |
+## Information Gathering (جمع‌آوری اطلاعات)
+- Nmap  
+- Shodan  
+- Maltego  
+- TheHarvester  
+- Recon-NG  
+- Amass  
+- Censys  
+- OSINT Framework  
+- Gobuster  
 
+## Wireless Hacking (هک شبکه بی‌سیم)
+- Aircrack-NG  
+- Wifite  
+- Kismet  
+- TCPDump  
+- Airsnort  
+- Netstumbler  
+- Reaver  
+
+## Software Engineering / Phishing (مهندسی اجتماعی / فیشینگ)
+- GoPhish  
+- HiddenEye  
+- SocialFish  
+- EvilURL  
+- Evilginx  
+
+## Exploitation (بهره‌برداری)
+- Burp Suite  
+- Metasploit Framework  
+- SQLMap  
+- ZAP  
+- ExploitDB  
+- Core Impact  
+- Cobalt Strike  
+
+## Password Cracking (شکستن رمز عبور)
+- John The Ripper  
+- Hydra  
+- Hashcat  
+- OPHCrack  
+- Medusa  
+- THC-Hydra  
+- Cain & Abel  
+
+## Vulnerability Scanning (اسکن آسیب‌پذیری)
+- OpenVAS  
+- Nessus  
+- AppScan  
+- LYNIS  
+- Retina  
+- Nexpose  
+
+## Forensics (جرم‌شناسی دیجیتال)
+- SleuthKit  
+- Autopsy  
+- Volatility  
+- Guymager  
+- Foremost  
+- Binwalk  
+- Wireshark  
+
+## Web Application Assessment (ارزیابی امنیت اپلیکیشن وب)
+- OWASP ZAP  
+- Burp Suite  
+- Nikto  
+- ZAP  
+- WPScan  
+- Gobuster  
+- App Spider  
+
+---
 
 # Cyber Security Tools — ابزارهای امنیت سایبری با توضیحات
 
