@@ -161,4 +161,74 @@ site:target.com filetype:sql "password" OR "credential"
 
 ---
 
+### DORKS LIST — 50 Google Dorks (GHDB-style)
+
+———- Information Gathering / Admin Panels ———-
+```
+site:{domain} inurl:admin OR inurl:login site:{domain} inurl:dashboard site:{domain} intitle:“admin” OR intitle:“login” site:{domain} inurl:“wp-admin” site:{domain} inurl:phpmyadmin
+```
+
+———- Configuration / Environment Files ———-
+```
+site:{domain} filetype:env OR filetype:ini site:{domain} filetype:conf OR filetype:cnf site:{domain} “DB_PASSWORD” OR “DB_USER” OR “DB_HOST” site:{domain} filetype:properties “password”
+```
+
+———- Backup / Archive / Indexes ———-
+```
+site:{domain} “index of” “backup” site:{domain} “index of” “dump” site:{domain} ext:zip OR ext:tar OR ext:gz “backup” site:{domain} filetype:sql “dump”
+```
+
+———- Credentials & Secrets ———-
+```
+site:{domain} intext:“password” filetype:txt site:{domain} filetype:log “password” site:{domain} “aws_access_key_id” OR “aws_secret_access_key” site:{domain} “BEGIN RSA PRIVATE KEY” site:{domain} “private key” ext:pem
+```
+
+———- Database / SQL Dumps ———-
+```
+site:{domain} filetype:sql “INSERT INTO” site:{domain} filetype:sql “password” site:{domain} filetype:db OR filetype:sqlite site:{domain} “mysqldump” OR “pg_dump”
+```
+
+———- Source Code Repos & Config Exposures ———-
+```
+site:{domain} inurl:.git site:{domain} inurl:.svn site:{domain} inurl:.hg site:{domain} “composer.json” “require”
+```
+———- Web App Specific: WordPress / Plugins ———-
+```
+site:{domain} inurl:wp-content/uploads filetype:php site:{domain} “wp-config.php” “DB_PASSWORD” site:{domain} inurl:wp-content/plugins filetype:php site:{domain} “Powered by WordPress” “plugin”
+```
+
+———- PHP / Debug / Info Pages ———-
+```
+site:{domain} intitle:“phpinfo()” “PHP Version” site:{domain} intext:“phpinfo()” filetype:php site:{domain} intext:“mysqli_connect(” OR “mysql_connect(” site:{domain} “Warning: mysql_” “on line”
+```
+
+———- File Uploads / Open Uploads ———-
+```
+site:{domain} inurl:uploads filetype:php site:{domain} inurl:upload filetype:jpg OR filetype:php site:{domain} “Index of” “/uploads/”
+```
+
+———- Error Messages / Debug Output ———-
+```
+site:{domain} “Stacktrace” OR “Exception in thread” site:{domain} “Fatal error” “on line” site:{domain} “Warning: include” “failed”
+```
+
+———- Admin Panels / Common Services ———-
+```
+site:{domain} inurl:phpinfo.php OR inurl:phpinfo site:{domain} inurl:manager/html (Tomcat manager) site:{domain} inurl:solr/admin (Solr admin)
+```
+
+———- Exposed Devices / Cameras / Routers ———-
+```
+site:{domain} “webcamxp” OR “NetWave” OR “IPCamera” site:{domain} “router” “admin” “password”
+```
+
+———- Miscellaneous Sensitive Files ———-
+```
+site:{domain} filetype:pdf “password” OR “credential” site:{domain} filetype:xls OR filetype:xlsx “password” site:{domain} filetype:doc OR filetype:docx “password” site:{domain} “ssh_host_rsa_key” OR “sshd_config”
+```
+
+———- Useful Generic GHDB Patterns ———-
+```
+site:{domain} “index of” “.git” site:{domain} “index of” “.env” site:{domain} “index of” “config”
+```
 
