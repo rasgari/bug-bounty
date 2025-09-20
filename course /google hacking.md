@@ -120,4 +120,45 @@ Exploit-DB GHDB (برای سرچ دُرک‌ها).
 
 ---
 
+### Google Hacking Database (GHDB)
+
+ابزارها و پروژه‌های کمکی (برای خواندن GHDB و اتوماسیون)
+
+صفحه رسمی GHDB در Exploit-DB — نقطهٔ شروع و مرجع اصلی. 
+
+
+آینه‌ها / گیت‌هاب: چند repo فهرست دُرک‌ها را mirror یا بصورت CSV/JSON نگهداری می‌کنند (مثلاً GitHub projects). 
+
+
+Pagodo / google-dorks-scanner / ghdb tools — ابزارهای پایتونی/بش که می‌توانند GHDB را گرفته و برای یک دامنه اجرا کنند (اتوماسیون); توجه به نرخ/قوانین و APIها ضروری است. 
+
+
+ابزارهای مکمل reconnaissance: theHarvester, amass, waybackurls, shodan, censys — نتیجهٔ GHDB را با اینها ترکیب کن. 
+
+
+مثال‌های پراستفاده (دُرک‌ها — فقط برای دامنه‌ای که اجازه داری)
+
+پیداکردن پنل مدیریت:
+```
+site:target.com inurl:admin OR inurl:login
+```
+
+فایل‌های env/پیکربندی حاوی پسورد:
+```
+site:target.com filetype:env OR filetype:ini "DB_PASSWORD"
+```
+
+directory listing / backup:
+```
+site:target.com "index of" "backup"
+```
+
+فایل‌های SQL یا export با credential:
+```
+site:target.com filetype:sql "password" OR "credential"
+```
+
+
+---
+
 
