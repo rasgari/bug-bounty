@@ -65,3 +65,56 @@ filetype:log intext:password site:target.com
 - OSINT Framework — فهرست ابزارها و منابع OSINT.
 ```
 
+---
+
+اپراتورهای گوگل (دُرک‌های پایه — Cheat-sheet)
+
+این اپراتورها را ترکیب کن تا دُرک‌های قدرتمند بسازی:
+
+site:example.com — محدود کردن جستجو به یک دامنه
+
+inurl:admin — URL حاوی کلمهٔ admin
+
+intitle:"index of" — صفحات Directory listing
+
+filetype:pdf یا ext:pdf — جستجوی نوع فایل
+
+intext:"password" — صفحاتی که در متن‌شان کلمهٔ password آمده
+
+allinurl: login.php user — تمام کلمات در URL
+
+cache:example.com — نسخهٔ کش شدهٔ گوگل
+
+related:example.com — سایت‌های مرتبط
+
+```
+site:example.com inurl:wp-admin
+site:example.com "index of" "backup"
+filetype:env intext:DB_PASSWORD
+site:gov filetype:pdf "password" OR "credential"
+```
+
+تمرین و مثال‌های کوچک (قابل اجرا)
+
+پیدا کردن صفحات admin:
+```
+site:target.com inurl:admin OR inurl:login
+```
+
+پیدا کردن فایل‌های بکاپ:
+```
+site:target.com intitle:"index of" "backup"
+```
+
+پیدا کردن فایل‌های حاوی کلید/پیکربندی:
+```
+site:target.com filetype:env OR filetype:ini OR filetype:cfg "DB_PASSWORD" OR "password"
+```
+
+پیدا کردن فایل‌های Word/Excel که ممکن است creds داشته باشند:
+```
+site:target.com filetype:xls OR filetype:docx intext:password
+```
+
+---
+
