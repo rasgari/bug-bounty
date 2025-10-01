@@ -6,10 +6,11 @@
 - checkmarx
 - veracode
 
-  ## networking
-  - wireshark
-  - nmap
-  - snort
-  - solarwinds
+
+## networking
+- wireshark
+- nmap
+- snort
+- solarwinds
  
     
