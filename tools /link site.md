@@ -77,3 +77,9 @@ https://pentest-tools.com/website-vulnerability-scanning/website-scanner
 ⭐️ t.me/ZeroSec_team
 
 =======================================
+
+ابزار 
+
+https://detectionstream.com/
+
+---
