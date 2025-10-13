@@ -8,3 +8,5 @@
 [ coursera ](https://www.coursera.org/professional-certificates/google-cybersecurity)
 
 [ coursera certificates ](https://www.coursera.org/google-career-certificates)
+
+[ safety ](https://safety.google/cybersecurity-advancements/)
