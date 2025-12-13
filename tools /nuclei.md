@@ -62,3 +62,19 @@ sudo rm -f /usr/local/bin/nuclei
 ```
 
 سپس دوباره با Go نصب کن.
+
+---
+
+پیشنهاد حرفه‌ای برای شما (با توجه به هدف تست نفوذ)
+
+با توجه به اینکه دنبال اسکریپت اسکن حرفه‌ای و Payloadهای 2025 هستی:
+```
+nuclei -update
+nuclei -update-templates
+nuclei -stats
+```
+
+و اجرای استاندارد:
+```
+nuclei -u https://target.com -severity low,medium,high,critical -c 50 -rl 150
+```
